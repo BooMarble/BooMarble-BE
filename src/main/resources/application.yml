@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    database: mysql
+  datasource:
+    url: jdbc:mysql://localhost:3306/boomarble
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: qwer1234
+
+logging:
+  level:
+    org.hibernate.SQL: debug
