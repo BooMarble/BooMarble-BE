@@ -19,6 +19,7 @@ public class User {
     private long id;
     private String name;
     private String nickname;
+    private String password; //jwt에 사용
     private String tel;
     private String major1;
     private String major2;
