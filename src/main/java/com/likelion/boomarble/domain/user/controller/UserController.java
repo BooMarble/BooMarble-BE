@@ -1,7 +1,6 @@
 package com.likelion.boomarble.domain.user.controller;
 
 import com.likelion.boomarble.domain.user.dto.UserSignUpRequestDto;
-import com.likelion.boomarble.domain.user.repository.UserRepository;
 import com.likelion.boomarble.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @PostMapping("/join")
     @ResponseStatus(HttpStatus.OK)
