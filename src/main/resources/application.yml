@@ -2,14 +2,22 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
     database: mysql
+
   datasource:
-    url: jdbc:mysql://localhost:3306/boomarble
+    url: jdbc:mysql://boomarble.chzqb1xhsnlp.ap-northeast-2.rds.amazonaws.com:3306/boomarble
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: qwer1234
+    username: 'admin'
+    password: 'qwer1234'
+
+  security:
+    jwt:
+      header: Authorization
+      secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+      token-validity-in-seconds: 86400
+
 
 logging:
   level:
