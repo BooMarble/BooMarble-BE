@@ -28,6 +28,8 @@ public class UniversityInfo {
     private int ibtQ;
     private int toeflQ;
     private int ieltsQ;
+    private String japaneseQ;
+    private String chineseQ;
     private String qualificationEtc;
     private String expCost;
     private String expCostDesc;
@@ -35,7 +37,7 @@ public class UniversityInfo {
     private String etc;
 
     @Builder
-    public UniversityInfo(String name, ExType exType, Country country, String period, int recruitNum, int gradeQ, int ibtQ, int toeflQ, int ieltsQ, String qualificationEtc, String expCost, String expCostDesc, String benefit, String etc) {
+    public UniversityInfo(String name, ExType exType, Country country, String period, int recruitNum, int gradeQ, int ibtQ, int toeflQ, int ieltsQ, String japaneseQ, String chineseQ, String qualificationEtc, String expCost, String expCostDesc, String benefit, String etc) {
         this.name = name;
         this.exType = exType;
         this.country = country;
@@ -45,6 +47,8 @@ public class UniversityInfo {
         this.ibtQ = ibtQ;
         this.toeflQ = toeflQ;
         this.ieltsQ = ieltsQ;
+        this.japaneseQ = japaneseQ;
+        this.chineseQ = chineseQ;
         this.qualificationEtc = qualificationEtc;
         this.expCost = expCost;
         this.expCostDesc = expCostDesc;
