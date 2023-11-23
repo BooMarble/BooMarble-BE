@@ -36,3 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
+
+### AWS ###
+application-aws.yml
+application-credentials.yml
