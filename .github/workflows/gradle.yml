@@ -22,8 +22,8 @@ jobs:
     - name: Create application-aws.yml and application-credentials.yml
       run: |
         mkdir -p ./src/main/resources
-        echo "${{ secrets.AWS_CONFIGURATION }}" > ./src/main/resources/application-aws.yml
-        echo "${{ secrets.CREDENTIALS_CONFIGURATION }}" > ./src/main/resources/application-credentials.yml
+        echo "${{ secrets.AWS_CONFIGURATION }}" | base64 --decode > ./src/main/resources/application-aws.yml
+        echo "${{ secrets.CREDENTIALS_CONFIGURATION }}" | base64 --decode > ./src/main/resources/application-credentials.yml
 
       shell: bash
 
@@ -44,8 +44,8 @@ jobs:
         key: ${{ secrets.KEY }}
         port: 22
         script: |
-          sudo docker stop boomarble-server || true
-          sudo docker rm boomarble-server || true
-          sudo docker image rm ${{ secrets.DOCKER_REPO }} || true
+          sudo docker stop boomarble-server
+          sudo docker rm boomarble-server
+          sudo docker image rm ${{ secrets.DOCKER_REPO }}
           sudo docker pull ${{ secrets.DOCKER_REPO }}
           sudo docker run -d --name boomarble-server -p 80:8080 ${{ secrets.DOCKER_REPO }}
