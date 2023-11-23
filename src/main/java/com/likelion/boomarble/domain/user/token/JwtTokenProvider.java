@@ -1,5 +1,6 @@
 package com.likelion.boomarble.domain.user.token;
 
+import com.likelion.boomarble.domain.user.service.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +27,7 @@ public class JwtTokenProvider {
 
     //토큰 유효시간
     private final long tokenValidTime = 1440 * 60 * 7 * 1000L; //7일 (168시간)
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     //객체 초기화, secretKey를 Base64로 인코딩
     @PostConstruct
