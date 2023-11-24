@@ -16,10 +16,10 @@ public class UniversityInfoDetailDTO {
     private String country;
     private String period; // 파견기간
     private int recruitNum; // 선발인원
-    private int gradeQ; // 지원자격 학점
+    private float gradeQ; // 지원자격 학점
     private int ibtQ; // 지원자격 ibt
     private int toeflQ; // 지원자격 토플
-    private int ielts; // 지원자격 ielts
+    private float ielts; // 지원자격 ielts
     private String japaneseQ; // 지원자격 jlpt
     private String chineseQ; // 지원자격 hsk
     private String qualificationEtc; // 지원자격 기타

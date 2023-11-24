@@ -3,6 +3,7 @@ package com.likelion.boomarble.domain.universityInfo.service;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
+import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
 import com.likelion.boomarble.domain.universityInfo.exception.UniversityInfoNotFoundException;
@@ -22,15 +23,10 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     private final UniversityInfoRepository universityInfoRepository;
     @Override
     @Transactional
-    public UniversityInfoListDTO getUniversityInfoList(String countryStr, String university, String type) {
-        Country country = null;
-        if (countryStr != null && !countryStr.equals("all")) country = Country.valueOf(countryStr);
-        ExType exType = null;
-        if (type != null) exType = ExType.valueOf(type);
-
+    public UniversityInfoListDTO getUniversityInfoList(Country country, String university, ExType type) {
         Specification<UniversityInfo> spec = Specification.where(UniversityInfoSpecifications.hasCountry(country))
                 .and(UniversityInfoSpecifications.hasUniversity(university))
-                .and(UniversityInfoSpecifications.hasType(exType));
+                .and(UniversityInfoSpecifications.hasType(type));
 
         List<UniversityInfo> results = universityInfoRepository.findAll(spec);
         return UniversityInfoListDTO.from(results);
@@ -48,5 +44,11 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     public UniversityInfoListDTO searchUniversityInfoList(String keyword) {
         List<UniversityInfo> universityInfoList = universityInfoRepository.findAllByNameContaining(keyword);
         return UniversityInfoListDTO.from(universityInfoList);
+    }
+
+    @Override
+    @Transactional
+    public UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO) {
+        return new UniversityInfo(registerUniversityInfoDTO);
     }
 }
