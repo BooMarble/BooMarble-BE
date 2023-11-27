@@ -3,9 +3,9 @@ package com.likelion.boomarble.domain.universityInfo.service;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
-import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
-import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
-import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
+import com.likelion.boomarble.domain.universityInfo.dto.*;
+
+import java.util.List;
 
 public interface UniversityInfoService {
 
@@ -16,4 +16,6 @@ public interface UniversityInfoService {
     UniversityInfoListDTO searchUniversityInfoList(String keyword);
 
     UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO);
+
+    UniversityNameListDTO getUniversitiedByCountry(Country country);
 }
