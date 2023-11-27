@@ -30,7 +30,7 @@ public class CommunityController {
     @GetMapping("")
     public ResponseEntity getCommunityList(
             Authentication authentication,
-            @RequestParam(value = "country", defaultValue = "all") String country,
+            @RequestParam(value = "country", required = false) String country,
             @RequestParam(value = "university", required = false) String university,
             @RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "semester", required = false) String semester) {
