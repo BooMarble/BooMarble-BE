@@ -9,7 +9,7 @@ public class UniversityInfoSpecifications {
 
     public static Specification<UniversityInfo> hasCountry(Country country) {
         return (root, query, criteriaBuilder) -> {
-            if ("all".equals(country)) {
+            if (country == null) {
                 return criteriaBuilder.conjunction();
             }
             return criteriaBuilder.equal(root.get("country"), country);

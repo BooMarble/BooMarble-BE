@@ -1,5 +1,9 @@
 package com.likelion.boomarble.domain.universityInfo.controller;
 
+import com.likelion.boomarble.domain.model.Country;
+import com.likelion.boomarble.domain.model.ExType;
+import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
+import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
 import com.likelion.boomarble.domain.universityInfo.service.UniversityInfoService;
@@ -18,9 +22,9 @@ public class UniversityInfoController {
     @GetMapping("")
     public ResponseEntity getUniversityInfoList(
             Authentication authentication,
-            @RequestParam(value = "country", defaultValue = "all") String country,
+            @RequestParam(value = "country", required = false) Country country,
             @RequestParam(value = "university", required = false) String university,
-            @RequestParam(value = "type", required = false) String type){
+            @RequestParam(value = "type", required = false) ExType type){
         UniversityInfoListDTO universityInfoListDTO = universityInfoService.getUniversityInfoList(country, university, type);
         return ResponseEntity.ok(universityInfoListDTO);
     }
@@ -38,4 +42,11 @@ public class UniversityInfoController {
         UniversityInfoListDTO universityInfoListDTO = universityInfoService.searchUniversityInfoList(keyword);
         return ResponseEntity.ok(universityInfoListDTO);
     }
+
+    // 이 부분은 대학 정보 테이블 수정 후 다시 구현할 예정
+//    @PostMapping("/register")
+//    public ResponseEntity registerUniversityInfo(Authentication authentication, @RequestBody RegisterUniversityInfoDTO registerUniversityInfoDTO){
+//        UniversityInfo universityInfo = universityInfoService.registerUniversityInfo(registerUniversityInfoDTO);
+//        return ResponseEntity.ok(universityInfo);
+//    }
 }

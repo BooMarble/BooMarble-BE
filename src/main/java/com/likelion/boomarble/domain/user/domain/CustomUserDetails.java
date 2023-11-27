@@ -18,8 +18,8 @@ public class CustomUserDetails implements UserDetails {
         return user;
     }
 
-    public String getEmail() {
-        return user.getEmail();
+    public long getUserPk() {
+        return user.getId();
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
