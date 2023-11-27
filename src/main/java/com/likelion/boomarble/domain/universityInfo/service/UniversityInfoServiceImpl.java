@@ -3,9 +3,7 @@ package com.likelion.boomarble.domain.universityInfo.service;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
-import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
-import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
-import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
+import com.likelion.boomarble.domain.universityInfo.dto.*;
 import com.likelion.boomarble.domain.universityInfo.exception.UniversityInfoNotFoundException;
 import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRepository;
 import com.likelion.boomarble.domain.universityInfo.specification.UniversityInfoSpecifications;
@@ -50,5 +48,12 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     @Transactional
     public UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO) {
         return new UniversityInfo(registerUniversityInfoDTO);
+    }
+
+    @Override
+    @Transactional
+    public UniversityNameListDTO getUniversitiedByCountry(Country country) {
+        List<UniversityInfo> universities = universityInfoRepository.findAllByCountry(country);
+        return UniversityNameListDTO.from(universities);
     }
 }
