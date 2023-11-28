@@ -2,6 +2,7 @@ package com.likelion.boomarble.domain.universityInfo.service;
 
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
+import com.likelion.boomarble.domain.model.Like;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.universityInfo.dto.*;
 
@@ -18,4 +19,8 @@ public interface UniversityInfoService {
     UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO);
 
     UniversityNameListDTO getUniversitiedByCountry(Country country);
+
+    int likeUniversityInfo(long universityId, long userId);
+
+    int unlikeUniversityInfo(long universityId, long userId);
 }

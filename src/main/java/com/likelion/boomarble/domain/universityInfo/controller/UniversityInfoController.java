@@ -7,6 +7,7 @@ import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDT
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
 import com.likelion.boomarble.domain.universityInfo.service.UniversityInfoService;
+import com.likelion.boomarble.domain.user.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -43,10 +44,36 @@ public class UniversityInfoController {
         return ResponseEntity.ok(universityInfoListDTO);
     }
 
+    @PostMapping("/{universityId}/like")
+    public ResponseEntity likeUniversityInfo(
+            Authentication authentication,
+            @PathVariable long universityId){
+        long userId = getUserPk(authentication);
+        int result = universityInfoService.likeUniversityInfo(universityId, userId);
+        if(result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        else if(result == 409) return ResponseEntity.badRequest().body("이미 좋아요를 눌렀습니다.");
+        return ResponseEntity.ok("좋아요가 정상적으로 반영이 되었습니다.");
+    }
+
+    @DeleteMapping("/{universityId}/like")
+    public ResponseEntity unlikeUniversityInfo(Authentication authentication, @PathVariable long universityId){
+        long userId = getUserPk(authentication);
+        int result = universityInfoService.unlikeUniversityInfo(universityId, userId);
+        if(result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        else if(result == 404) return ResponseEntity.badRequest().body("좋아요를 누른 적이 없습니다.");
+        return ResponseEntity.ok("좋아요가 정상적으로 취소가 되었습니다.");
+    }
+
+
     // 이 부분은 대학 정보 테이블 수정 후 다시 구현할 예정
-//    @PostMapping("/register")
-//    public ResponseEntity registerUniversityInfo(Authentication authentication, @RequestBody RegisterUniversityInfoDTO registerUniversityInfoDTO){
-//        UniversityInfo universityInfo = universityInfoService.registerUniversityInfo(registerUniversityInfoDTO);
-//        return ResponseEntity.ok(universityInfo);
-//    }
+    @PostMapping("/register")
+    public ResponseEntity registerUniversityInfo(Authentication authentication, @RequestBody RegisterUniversityInfoDTO registerUniversityInfoDTO){
+        UniversityInfo universityInfo = universityInfoService.registerUniversityInfo(registerUniversityInfoDTO);
+        return ResponseEntity.ok(universityInfo);
+    }
+
+    public long getUserPk(Authentication authentication){
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        return customUserDetails.getUserPk();
+    }
 }
