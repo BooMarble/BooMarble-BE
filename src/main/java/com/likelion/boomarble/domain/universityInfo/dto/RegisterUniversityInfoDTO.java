@@ -16,7 +16,7 @@ public class RegisterUniversityInfoDTO {
     private ExType exType; // 교환유형(교환학생, 7+1)
     private Country country; // 국가
     private String period; // 파견기간
-    private int recruitNum; // 선발인원
+    private String recruitNum; // 선발인원
     private float gradeQ; // 지원자격 학점
     private int ibtQ; // 지원자격 ibt
     private int toeflQ; // 지원자격 토플

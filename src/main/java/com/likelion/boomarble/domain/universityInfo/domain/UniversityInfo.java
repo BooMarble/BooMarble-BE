@@ -2,16 +2,17 @@ package com.likelion.boomarble.domain.universityInfo.domain;
 
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
+import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Getter
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class UniversityInfo {
 
@@ -21,10 +22,13 @@ public class UniversityInfo {
     private ExType exType;
     private Country country;
     private String period;
-    private int recruitNum;
+    private String recruitNum;
     private float gradeQ;
+    @ColumnDefault("-1")
     private int ibtQ;
+    @ColumnDefault("-1")
     private int toeflQ;
+    @ColumnDefault("-1")
     private float ieltsQ;
     private String japaneseQ;
     private String chineseQ;
@@ -33,9 +37,16 @@ public class UniversityInfo {
     private String expCostDesc;
     private String benefit;
     private String etc;
+    @OneToMany(mappedBy = "universityInfo") // Review 엔티티의 university 필드와 매핑
+    private List<Review> reviews;
+
+    // 대학 정보에 속하는 리뷰 개수를 반환하는 메서드
+    public int getReviewCount() {
+        return reviews != null ? reviews.size() : 0;
+    }
 
     @Builder
-    public UniversityInfo(String name, ExType exType, Country country, String period, int recruitNum, float gradeQ, int ibtQ, int toeflQ, float ieltsQ, String japaneseQ, String chineseQ, String qualificationEtc, String expCost, String expCostDesc, String benefit, String etc) {
+    public UniversityInfo(String name, ExType exType, Country country, String period, String recruitNum, float gradeQ, int ibtQ, int toeflQ, float ieltsQ, String japaneseQ, String chineseQ, String qualificationEtc, String expCost, String expCostDesc, String benefit, String etc) {
         this.name = name;
         this.exType = exType;
         this.country = country;
