@@ -2,16 +2,23 @@ package com.likelion.boomarble.domain.community.service;
 
 import com.likelion.boomarble.domain.community.domain.Community;
 import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
+import com.likelion.boomarble.domain.community.dto.CommunityDetailDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityListDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityTagMap;
+import com.likelion.boomarble.domain.community.exception.CommunityNotFoundException;
 import com.likelion.boomarble.domain.community.repository.CommunityRepository;
 import com.likelion.boomarble.domain.community.repository.CommunityTagRepository;
+import com.likelion.boomarble.domain.community.specification.CommunitySpecification;
+import com.likelion.boomarble.domain.model.Country;
+import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.model.Tag;
 import com.likelion.boomarble.domain.model.repository.TagRepository;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,12 +33,19 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityTagRepository communityTagRepository;
 
     @Override
-    public CommunityListDTO getCommunityList(String title, String country, String type, String semester) {
-        List<Community> communities = communityRepository.findAll();
+    @Transactional
+    public CommunityListDTO getCommunityList(Country country, String university, ExType type, String semester) {
+        Specification<Community> spec = Specification.where(CommunitySpecification.hasCountry(country))
+                .and(CommunitySpecification.hasUniversity(university))
+                .and(CommunitySpecification.hasType(type))
+                .and(CommunitySpecification.hasSemester(semester));
+
+        List<Community> communities = communityRepository.findAll(spec);
         return CommunityListDTO.from(communities);
     }
 
     @Override
+    @Transactional
     public Community createCommunityPost(Long userId, CommunityCreateDTO communityCreateDTO) {
         Optional<User> user = userRepository.findById(userId);
         Community community = new Community(communityCreateDTO, user.get());
@@ -49,5 +63,12 @@ public class CommunityServiceImpl implements CommunityService {
             communityTagRepository.save(new CommunityTagMap(community, checkTag));
         }
         return result;
+    }
+
+    @Override
+    public CommunityDetailDTO getCommunityDetail(long postId) {
+        Community community = communityRepository.findById(postId)
+                .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
+        return CommunityDetailDTO.from(community);
     }
 }
