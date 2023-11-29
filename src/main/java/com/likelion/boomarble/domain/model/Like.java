@@ -3,6 +3,7 @@ package com.likelion.boomarble.domain.model;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,5 +23,11 @@ public class Like {
     @ManyToOne
     @JoinColumn(name = "universityInfo")
     private UniversityInfo universityInfo;
+
+    @Builder
+    public Like(User user, UniversityInfo universityInfo){
+        this.user = user;
+        this.universityInfo = universityInfo;
+    }
 
 }
