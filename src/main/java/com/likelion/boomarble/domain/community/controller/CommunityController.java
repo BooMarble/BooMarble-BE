@@ -4,6 +4,7 @@ import com.likelion.boomarble.domain.community.domain.Community;
 import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityDetailDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityListDTO;
+import com.likelion.boomarble.domain.community.repository.CommunityRepository;
 import com.likelion.boomarble.domain.community.service.CommunityService;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
