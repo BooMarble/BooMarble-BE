@@ -3,12 +3,10 @@ package com.likelion.boomarble.domain.review.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
-import com.likelion.boomarble.domain.review.domain.Subjects;
-import com.likelion.boomarble.domain.review.dto.ReviewDetailDTO;
+import com.likelion.boomarble.domain.review.dto.ReviewCreateDTO;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -72,29 +70,29 @@ public class Review {
 //    }
 
 
-    public Review(ReviewDetailDTO reviewDetailDTO, User user) {
+    public Review(ReviewCreateDTO reviewCreateDTO, User user) {
         this.writer = user;
-        this.semester = reviewDetailDTO.getSemester();
-        this.dormitoryName = reviewDetailDTO.getDormitoryName();
-        this.dormitoryDesc = reviewDetailDTO.getDormitoryDesc();
-        this.admission = reviewDetailDTO.getAdmission();
-        this.fee = reviewDetailDTO.getFee();
-        this.preparationEtc = reviewDetailDTO.getPreparationEtc();
-        this.transportation = reviewDetailDTO.getTransportation();
-        this.enrollment = reviewDetailDTO.getEnrollment();
-        this.program = reviewDetailDTO.getProgram();
-        this.subjects = reviewDetailDTO.getSubjects();
-        this.activities = reviewDetailDTO.getActivities();
-        this.totalCost = reviewDetailDTO.getTotalCost();
-        this.airfare = reviewDetailDTO.getAirfare();
-        this.insurance = reviewDetailDTO.getInsurance();
-        this.costEtc = reviewDetailDTO.getCostEtc();
-        this.etc = reviewDetailDTO.getEtc();
-        this.acceptedGrade = reviewDetailDTO.getAcceptedGrade();
-        this.message = reviewDetailDTO.getMessage();
-        this.exType = reviewDetailDTO.getExType();
-        this.country = reviewDetailDTO.getCountry();
-        this.universityInfo = reviewDetailDTO.getUniversityInfo();
+        this.semester = reviewCreateDTO.getSemester();
+        this.dormitoryName = reviewCreateDTO.getDormitoryName();
+        this.dormitoryDesc = reviewCreateDTO.getDormitoryDesc();
+        this.admission = reviewCreateDTO.getAdmission();
+        this.fee = reviewCreateDTO.getFee();
+        this.preparationEtc = reviewCreateDTO.getPreparationEtc();
+        this.transportation = reviewCreateDTO.getTransportation();
+        this.enrollment = reviewCreateDTO.getEnrollment();
+        this.program = reviewCreateDTO.getProgram();
+        this.subjects = reviewCreateDTO.getSubjects();
+        this.activities = reviewCreateDTO.getActivities();
+        this.totalCost = reviewCreateDTO.getTotalCost();
+        this.airfare = reviewCreateDTO.getAirfare();
+        this.insurance = reviewCreateDTO.getInsurance();
+        this.costEtc = reviewCreateDTO.getCostEtc();
+        this.etc = reviewCreateDTO.getEtc();
+        this.acceptedGrade = reviewCreateDTO.getAcceptedGrade();
+        this.message = reviewCreateDTO.getMessage();
+        this.exType = ExType.valueOf(reviewCreateDTO.getExType());
+        this.country = Country.valueOf(reviewCreateDTO.getCountry());
+        this.universityInfo = reviewCreateDTO.getUniversityInfo();
     }
 }
 

@@ -2,6 +2,7 @@ package com.likelion.boomarble.domain.review.dto;
 
 import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.review.domain.Subjects;
+import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.user.domain.User;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewDetailDTO {
+public class ReviewCreateDTO {
 
     private User writer;
     private String semester;
@@ -35,11 +36,10 @@ public class ReviewDetailDTO {
     private String message;
     private String exType;
     private String country;
-    private String universityName;
-    private Long universityId;
+    private UniversityInfo universityInfo;
 
-    public static ReviewDetailDTO from(Review review){
-        return ReviewDetailDTO.builder()
+    public static ReviewCreateDTO from(Review review){
+        return ReviewCreateDTO.builder()
                 .writer(review.getWriter())
                 .semester(review.getSemester())
                 .dormitoryName(review.getDormitoryName())
@@ -61,8 +61,7 @@ public class ReviewDetailDTO {
                 .message(review.getMessage())
                 .exType(review.getExType().getName())
                 .country(review.getCountry().getName())
-                .universityId(review.getUniversityInfo().getId())
-                .universityName(review.getUniversityInfo().getName())
+                .universityInfo(review.getUniversityInfo())
                 .build();
     }
 

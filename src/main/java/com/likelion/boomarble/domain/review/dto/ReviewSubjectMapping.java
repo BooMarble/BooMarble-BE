@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewSubjectMapping {
-    private ReviewDetailDTO reviewDetailDTO;
+    private ReviewCreateDTO reviewCreateDTO;
     private List<SubjectDTO> subjectListDTO;
 }

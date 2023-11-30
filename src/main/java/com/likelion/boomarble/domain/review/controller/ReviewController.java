@@ -4,9 +4,7 @@ package com.likelion.boomarble.domain.review.controller;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.review.domain.Review;
-import com.likelion.boomarble.domain.review.domain.Subjects;
 import com.likelion.boomarble.domain.review.dto.*;
-import com.likelion.boomarble.domain.review.repository.SubjectRepository;
 import com.likelion.boomarble.domain.review.service.ReviewService;
 import com.likelion.boomarble.domain.review.service.SubjectService;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
@@ -99,13 +97,20 @@ public class ReviewController {
         return ResponseEntity.ok(reviewUnivInfoListDTO);
     }
 
+    @GetMapping("/{reviewId}")
+    public ResponseEntity getReview(Authentication authentication,
+                                    @PathVariable Long reviewId){
+        ReviewDetailDTO reviewDetailDTO = reviewService.getReview(reviewId);
+        return ResponseEntity.ok(reviewDetailDTO);
+    }
+
     @PostMapping("")
     public ResponseEntity postReview(
             Authentication authentication,
             @RequestBody ReviewSubjectMapping reviewSubjectMapping
             ){
         long userId = getUserPk(authentication);
-        Review result = reviewService.createReview(userId, reviewSubjectMapping.getReviewDetailDTO());
+        Review result = reviewService.createReview(userId, reviewSubjectMapping.getReviewCreateDTO());
         List<SubjectDTO> subjectDTOS = reviewSubjectMapping.getSubjectListDTO();
         for (SubjectDTO subjectDTO : subjectDTOS){
             subjectService.createSubjects(result, subjectDTO);

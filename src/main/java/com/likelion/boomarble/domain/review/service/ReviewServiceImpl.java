@@ -4,23 +4,21 @@ import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.review.dto.*;
+import com.likelion.boomarble.domain.review.exception.ReviewNotFoundException;
 import com.likelion.boomarble.domain.review.repository.ReviewRepository;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
-import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoViewDTO;
 import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRepository;
 import com.likelion.boomarble.domain.universityInfo.specification.UniversityInfoSpecifications;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -98,9 +96,16 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public Review createReview(Long userId, ReviewDetailDTO reviewDetailDTO) {
+    public ReviewDetailDTO getReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
+        return ReviewDetailDTO.from(review);
+    }
+
+    @Override
+    public Review createReview(Long userId, ReviewCreateDTO reviewCreateDTO) {
         Optional<User> user = userRepository.findById(userId);
-        Review review = new Review(reviewDetailDTO, user.get());
+        Review review = new Review(reviewCreateDTO, user.get());
         return reviewRepository.save(review);
     }
 }

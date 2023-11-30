@@ -7,8 +7,6 @@ import com.likelion.boomarble.domain.review.dto.*;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public interface ReviewService {
 
@@ -22,6 +20,7 @@ public interface ReviewService {
     ReviewPrepListDTO getReviewPrep(Long universityInfoId);
     ReviewSubjectsListDTO getReviewSubjects(Long universityInfoId);
     ReviewUnivInfoListDTO getReviewUnivInfo(Long universityInfoId);
-    Review createReview(Long userId, ReviewDetailDTO reviewDetailDTO);
+    ReviewDetailDTO getReview(Long reviewId);
+    Review createReview(Long userId, ReviewCreateDTO reviewCreateDTO);
 
 }
