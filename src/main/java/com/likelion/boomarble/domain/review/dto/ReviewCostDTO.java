@@ -23,9 +23,6 @@ public class ReviewCostDTO extends ReviewCommonDTO {
                 .insurance(review.getInsurance())
                 .costEtc(review.getCostEtc())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

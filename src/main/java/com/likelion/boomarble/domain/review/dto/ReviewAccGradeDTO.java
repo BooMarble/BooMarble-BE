@@ -17,9 +17,6 @@ public class ReviewAccGradeDTO extends ReviewCommonDTO {
         return ReviewAccGradeDTO.builder()
                 .acceptedGrade(review.getAcceptedGrade())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

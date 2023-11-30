@@ -17,9 +17,6 @@ public class ReviewActivityDTO extends ReviewCommonDTO {
         return ReviewActivityDTO.builder()
                 .activities(review.getActivities())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

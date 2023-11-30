@@ -14,8 +14,5 @@ import lombok.experimental.SuperBuilder;
 public class ReviewCommonDTO {
 
     private User writer;
-    private String semester;
-    private String exType;
-    private String country;
 
 }

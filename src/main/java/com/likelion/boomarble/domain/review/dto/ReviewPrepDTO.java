@@ -21,9 +21,6 @@ public class ReviewPrepDTO extends ReviewCommonDTO {
                 .fee(review.getFee())
                 .preparationEtc(review.getPreparationEtc())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

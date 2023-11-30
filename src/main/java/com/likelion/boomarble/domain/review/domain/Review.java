@@ -1,5 +1,6 @@
 package com.likelion.boomarble.domain.review.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.review.domain.Subjects;
@@ -33,7 +34,8 @@ public class Review {
     private String transportation;
     private String enrollment;
     private String program;
-    @OneToMany
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Subjects> subjects;
     private String activities;
     private String totalCost;

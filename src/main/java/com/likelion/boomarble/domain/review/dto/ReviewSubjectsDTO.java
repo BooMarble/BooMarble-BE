@@ -20,9 +20,6 @@ public class ReviewSubjectsDTO extends ReviewCommonDTO {
         return ReviewSubjectsDTO.builder()
                 .subjects(review.getSubjects())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

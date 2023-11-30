@@ -17,9 +17,6 @@ public class ReviewEtcDTO extends ReviewCommonDTO {
         return ReviewEtcDTO.builder()
                 .etc(review.getEtc())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

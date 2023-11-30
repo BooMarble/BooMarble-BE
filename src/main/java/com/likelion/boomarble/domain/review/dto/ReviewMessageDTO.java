@@ -17,9 +17,6 @@ public class ReviewMessageDTO extends ReviewCommonDTO {
         return ReviewMessageDTO.builder()
                 .message(review.getMessage())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

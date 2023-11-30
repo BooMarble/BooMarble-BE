@@ -1,5 +1,6 @@
 package com.likelion.boomarble.domain.review.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.likelion.boomarble.domain.review.dto.SubjectDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class Subjects {
     private long id;
     @ManyToOne
     @JoinColumn(name = "review")
+    @JsonBackReference
     private Review review;
     private String code;
     private String className;

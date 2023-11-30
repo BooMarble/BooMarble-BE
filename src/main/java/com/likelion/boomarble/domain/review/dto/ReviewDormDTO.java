@@ -18,9 +18,6 @@ public class ReviewDormDTO extends ReviewCommonDTO{
                 .dormitoryName(review.getDormitoryName())
                 .dormitoryDesc(review.getDormitoryDesc())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

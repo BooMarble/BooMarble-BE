@@ -24,9 +24,6 @@ public class ReviewUnivInfoDTO extends ReviewCommonDTO{
                 .enrollment(review.getEnrollment())
                 .program(review.getProgram())
                 .writer(review.getWriter())
-                .semester(review.getSemester())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
                 .build();
     }
 

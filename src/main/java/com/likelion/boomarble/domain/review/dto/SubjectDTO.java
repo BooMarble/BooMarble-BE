@@ -2,6 +2,7 @@ package com.likelion.boomarble.domain.review.dto;
 
 import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.review.domain.Subjects;
+import com.likelion.boomarble.domain.user.domain.User;
 import lombok.*;
 
 @Builder
@@ -9,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor @NoArgsConstructor
 public class SubjectDTO {
 
+    private User writer;
     private Review review;
     private String code;
     private String className;
