@@ -66,6 +66,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    @Transactional
     public CommunityDetailDTO getCommunityDetail(long postId) {
         Community community = communityRepository.findById(postId)
                 .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
