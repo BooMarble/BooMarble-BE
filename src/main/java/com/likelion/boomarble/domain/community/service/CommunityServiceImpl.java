@@ -1,10 +1,7 @@
 package com.likelion.boomarble.domain.community.service;
 
 import com.likelion.boomarble.domain.community.domain.Community;
-import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
-import com.likelion.boomarble.domain.community.dto.CommunityDetailDTO;
-import com.likelion.boomarble.domain.community.dto.CommunityListDTO;
-import com.likelion.boomarble.domain.community.dto.CommunityTagMap;
+import com.likelion.boomarble.domain.community.dto.*;
 import com.likelion.boomarble.domain.community.exception.CommunityNotFoundException;
 import com.likelion.boomarble.domain.community.repository.CommunityRepository;
 import com.likelion.boomarble.domain.community.repository.CommunityTagRepository;
@@ -20,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +58,9 @@ public class CommunityServiceImpl implements CommunityService {
                 checkTag = new Tag(tag, 1);
                 tagRepository.save(checkTag);
             }
-            communityTagRepository.save(new CommunityTagMap(community, checkTag));
+            CommunityTagMap communityTagMap = new CommunityTagMap(community, checkTag);
+            communityTagRepository.save(communityTagMap);
+            community.addCommunityTagList(communityTagMap);
         }
         return result;
     }
@@ -72,4 +72,18 @@ public class CommunityServiceImpl implements CommunityService {
                 .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
         return CommunityDetailDTO.from(community);
     }
+
+//    @Override
+//    @Transactional
+//    public List<String> getTagList(long postId) {
+//        Community community = communityRepository.findById(postId)
+//                .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
+//        List<CommunityTagMap> communityTagMapList = communityTagRepository.findAllByCommunity(community);
+//        List<String> tagList = new ArrayList<>();
+//        for(CommunityTagMap communityTagMap: communityTagMapList){
+//            String tag = communityTagMap.getTag().getName();
+//            tagList.add(tag);
+//        }
+//        return tagList;
+//    }
 }

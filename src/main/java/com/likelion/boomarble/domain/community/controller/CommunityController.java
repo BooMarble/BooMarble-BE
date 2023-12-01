@@ -4,6 +4,7 @@ import com.likelion.boomarble.domain.community.domain.Community;
 import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityDetailDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityListDTO;
+import com.likelion.boomarble.domain.community.dto.CommunityTagMap;
 import com.likelion.boomarble.domain.community.repository.CommunityRepository;
 import com.likelion.boomarble.domain.community.service.CommunityService;
 import com.likelion.boomarble.domain.model.Country;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
