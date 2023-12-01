@@ -1,17 +1,19 @@
 package com.likelion.boomarble.domain.community.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
+import com.likelion.boomarble.domain.community.dto.CommunityTagMap;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
 import com.likelion.boomarble.domain.model.Tag;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,17 +33,13 @@ public class Community {
     @ManyToOne
     @JoinColumn(name = "university")
     private UniversityInfo university;
+    @JsonIgnore
+    @OneToMany(mappedBy = "community")
+    private List<CommunityTagMap> communityTagList;
 
-//    @Builder
-//    public Community(User writer, String title, String content, String semester, ExType exType, Country country, UniversityInfo university) {
-//        this.writer = writer;
-//        this.title = title;
-//        this.content = content;
-//        this.semester = semester;
-//        this.exType = exType;
-//        this.country = country;
-//        this.university = university;
-//    }
+    public void addCommunityTagList(CommunityTagMap communityTagMap) {
+        this.communityTagList.add(communityTagMap);
+    }
 
     public Community(CommunityCreateDTO communityCreateDTO, User user){
         this.writer = user;
