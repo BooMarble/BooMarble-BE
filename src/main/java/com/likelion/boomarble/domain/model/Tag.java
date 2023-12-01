@@ -1,5 +1,6 @@
 package com.likelion.boomarble.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,8 +16,10 @@ import javax.persistence.Id;
 public class Tag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
     private String name;
+    @JsonIgnore
     private int cnt;
 
     @Builder
