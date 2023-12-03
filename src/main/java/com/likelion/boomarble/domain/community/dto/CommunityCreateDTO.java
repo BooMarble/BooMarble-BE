@@ -22,7 +22,7 @@ public class CommunityCreateDTO {
     private String postTitle;
     private String postContent;
     private Country postCountry;
-    private UniversityInfo postUniversity;
+    private long postUniversityId;
     private ExType postExType;
     private String postSemester;
     private String postTags;
