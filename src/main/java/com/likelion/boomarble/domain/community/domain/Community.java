@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,7 @@ public class Community {
     @JoinColumn(name = "writer")
     private User writer;
     private String title;
+    @Size(max=2048)
     private String content;
     private String semester;
     private ExType exType;
