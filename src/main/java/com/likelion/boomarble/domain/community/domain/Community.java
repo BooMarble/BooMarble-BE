@@ -5,7 +5,6 @@ import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
 import com.likelion.boomarble.domain.community.dto.CommunityTagMap;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
-import com.likelion.boomarble.domain.model.Tag;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
@@ -39,16 +38,12 @@ public class Community {
     @OneToMany(mappedBy = "community")
     private List<CommunityTagMap> communityTagList;
 
-    public void addCommunityTagList(CommunityTagMap communityTagMap) {
-        this.communityTagList.add(communityTagMap);
-    }
-
-    public Community(CommunityCreateDTO communityCreateDTO, User user){
+    public Community(CommunityCreateDTO communityCreateDTO, UniversityInfo university, User user){
         this.writer = user;
         this.title = communityCreateDTO.getPostTitle();
         this.content = communityCreateDTO.getPostContent();
         this.country = communityCreateDTO.getPostCountry();
-        this.university = communityCreateDTO.getPostUniversity();
+        this.university = university;
         this.exType = communityCreateDTO.getPostExType();
         this.semester = communityCreateDTO.getPostSemester();
     }
