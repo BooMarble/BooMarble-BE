@@ -22,6 +22,7 @@ public class UniversityInfo {
     private String name;
     private ExType exType;
     private Country country;
+    private String semester;
     private String period;
     private String recruitNum;
     private float gradeQ;
