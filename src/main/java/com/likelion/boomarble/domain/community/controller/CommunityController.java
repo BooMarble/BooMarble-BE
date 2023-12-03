@@ -31,7 +31,7 @@ public class CommunityController {
         long userId = getUserPk(authentication);
         Community result = communityService.createCommunityPost(userId, communityCreateDTO);
         if (result == null) return ResponseEntity.badRequest().build();
-        else return ResponseEntity.ok(result);
+        else return ResponseEntity.ok("커뮤니티 글이 정상적으로 등록되었습니다.");
     }
 
     @GetMapping("")
