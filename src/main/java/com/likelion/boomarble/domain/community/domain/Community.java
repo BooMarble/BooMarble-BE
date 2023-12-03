@@ -26,7 +26,7 @@ public class Community {
     @JoinColumn(name = "writer")
     private User writer;
     private String title;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String content;
     private String semester;
     private ExType exType;

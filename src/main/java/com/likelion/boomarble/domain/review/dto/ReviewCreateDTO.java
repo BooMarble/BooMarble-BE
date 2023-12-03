@@ -34,8 +34,8 @@ public class ReviewCreateDTO {
     private String etc;
     private String acceptedGrade;
     private String message;
-    private String exType;
-    private String country;
+//    private String exType;
+//    private String country;
     private UniversityInfo universityInfo;
 
     public static ReviewCreateDTO from(Review review){
@@ -59,8 +59,8 @@ public class ReviewCreateDTO {
                 .etc(review.getEtc())
                 .acceptedGrade(review.getAcceptedGrade())
                 .message(review.getMessage())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
+//                .exType(review.getExType().getName())
+//                .country(review.getCountry().getName())
                 .universityInfo(review.getUniversityInfo())
                 .build();
     }
