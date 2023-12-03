@@ -27,36 +27,36 @@ public class Review {
     private String semester;
     private String dormitoryName;
     private String dormitoryDesc;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String admission;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String fee;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String preparationEtc;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String transportation;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String enrollment;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String program;
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Subjects> subjects;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String activities;
     private String totalCost;
     private String airfare;
     private String insurance;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String costEtc;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String etc;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String acceptedGrade;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String message;
-    private ExType exType;
-    private Country country;
+//    private ExType exType;
+//    private Country country;
     @ManyToOne
     @JoinColumn(name = "university")
     private UniversityInfo universityInfo;
@@ -102,8 +102,8 @@ public class Review {
         this.etc = reviewCreateDTO.getEtc();
         this.acceptedGrade = reviewCreateDTO.getAcceptedGrade();
         this.message = reviewCreateDTO.getMessage();
-        this.exType = ExType.valueOf(reviewCreateDTO.getExType());
-        this.country = Country.valueOf(reviewCreateDTO.getCountry());
+//        this.exType = ExType.valueOf(reviewCreateDTO.getExType());
+//        this.country = Country.valueOf(reviewCreateDTO.getCountry());
         this.universityInfo = reviewCreateDTO.getUniversityInfo();
     }
 }

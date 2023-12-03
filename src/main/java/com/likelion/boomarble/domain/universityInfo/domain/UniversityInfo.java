@@ -22,6 +22,7 @@ public class UniversityInfo {
     private String name;
     private ExType exType;
     private Country country;
+    private String semester;
     private String period;
     private String recruitNum;
     private float gradeQ;
@@ -33,13 +34,13 @@ public class UniversityInfo {
     private float ieltsQ;
     private String japaneseQ;
     private String chineseQ;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String qualificationEtc;
     private String expCost;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String expCostDesc;
     private String benefit;
-    @Size(max=2048)
+    @Column(length = 2048)
     private String etc;
     @OneToMany(mappedBy = "universityInfo") // Review 엔티티의 university 필드와 매핑
     private List<Review> reviews;

@@ -33,8 +33,8 @@ public class ReviewDetailDTO {
     private String etc;
     private String acceptedGrade;
     private String message;
-    private String exType;
-    private String country;
+//    private String exType;
+//    private String country;
     private String universityName;
     private Long universityId;
 
@@ -59,8 +59,8 @@ public class ReviewDetailDTO {
                 .etc(review.getEtc())
                 .acceptedGrade(review.getAcceptedGrade())
                 .message(review.getMessage())
-                .exType(review.getExType().getName())
-                .country(review.getCountry().getName())
+//                .exType(review.getExType().getName())
+//                .country(review.getCountry().getName())
                 .universityId(review.getUniversityInfo().getId())
                 .universityName(review.getUniversityInfo().getName())
                 .build();
