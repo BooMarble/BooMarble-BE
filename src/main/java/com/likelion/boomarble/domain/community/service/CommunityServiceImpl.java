@@ -19,7 +19,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,27 +51,27 @@ public class CommunityServiceImpl implements CommunityService {
     public Community createCommunityPost(Long userId, CommunityCreateDTO communityCreateDTO) {
         Optional<User> user = userRepository.findById(userId);
         long universityId = communityCreateDTO.getPostUniversityId();
-        Optional<UniversityInfo> universityInfo = universityInfoRepository.findById(universityId);
+        UniversityInfo universityInfo = universityInfoRepository.findById(universityId).orElse(null);
 
-        Community community = new Community(communityCreateDTO, universityInfo.get(), user.get());
+        Community community = new Community(communityCreateDTO, universityInfo, user.get());
         Community result = communityRepository.save(community);
 
         String semester = community.getSemester();
-        String university = community.getUniversity().getName();
-        String country = community.getCountry().getName();
-        String exType = community.getExType().getName();
+        UniversityInfo university = community.getUniversity();
+        Country country = community.getCountry();
+        ExType exType = community.getExType();
 
         // 태그에 학기, 대학, 나라, 교환유형 추가
         ArrayList<String> tagList = new ArrayList(
                 Arrays.asList(communityCreateDTO.getPostTags().split(",")));
-        tagList.add(semester);
-        tagList.add(university);
-        tagList.add(country);
-        tagList.add(exType);
+        if(semester != null) { tagList.add(semester); }
+        if(university != null) { tagList.add(university.getName()); }
+        if(country != null) { tagList.add(country.getName()); }
+        if(exType != null) { tagList.add(exType.getName()); }
 
         // 해시태그 추가
         for(String tag : tagList){
-            System.out.println(tag);
+
             Tag checkTag = tagRepository.findByName(tag);
             if (checkTag != null) {
                 checkTag.plusCount();
