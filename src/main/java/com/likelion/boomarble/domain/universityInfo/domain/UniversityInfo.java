@@ -6,7 +6,9 @@ import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -36,11 +38,14 @@ public class UniversityInfo {
     private String etc;
     @OneToMany(mappedBy = "universityInfo") // Review 엔티티의 university 필드와 매핑
     private List<Review> reviews;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @Nullable
     private EnglishQ englishQ;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @Nullable
     private JapaneseQ japaneseQ;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST) // UniversityInfo 저장하면서 얘네도 자동으로 저장
+    @Nullable
     private List<ChineseQ> chineseQList;
 
     // 대학 정보에 속하는 리뷰 개수를 반환하는 메서드
@@ -63,23 +68,23 @@ public class UniversityInfo {
 //        this.etc = etc;
 //    }
 
-    @Builder
-    public UniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO){
-        this.name = registerUniversityInfoDTO.getUniversityName();
-        this.exType = registerUniversityInfoDTO.getExType();
-        this.country = registerUniversityInfoDTO.getCountry();
-        this.period = registerUniversityInfoDTO.getPeriod();
-        this.recruitNum = registerUniversityInfoDTO.getRecruitNum();
-        this.gradeQ = registerUniversityInfoDTO.getGradeQ();
-        this.ibtQ = registerUniversityInfoDTO.getIbtQ();
-        this.toeflQ = registerUniversityInfoDTO.getToeflQ();
-        this.ieltsQ = registerUniversityInfoDTO.getIelts();
-        this.japaneseQ = registerUniversityInfoDTO.getJapaneseQ();
-        this.chineseQ = registerUniversityInfoDTO.getChineseQ();
-        this.qualificationEtc = registerUniversityInfoDTO.getQualificationEtc();
-        this.expCost = registerUniversityInfoDTO.getExpCost();
-        this.expCostDesc = registerUniversityInfoDTO.getExpCostDesc();
-        this.benefit = registerUniversityInfoDTO.getBenefit();
-        this.etc = registerUniversityInfoDTO.getEtc();
-    }
+//    @Builder
+//    public UniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO){
+//        this.name = registerUniversityInfoDTO.getUniversityName();
+//        this.exType = registerUniversityInfoDTO.getExType();
+//        this.country = registerUniversityInfoDTO.getCountry();
+//        this.period = registerUniversityInfoDTO.getPeriod();
+//        this.recruitNum = registerUniversityInfoDTO.getRecruitNum();
+//        this.gradeQ = registerUniversityInfoDTO.getGradeQ();
+//        this.ibtQ = registerUniversityInfoDTO.getIbtQ();
+//        this.toeflQ = registerUniversityInfoDTO.getToeflQ();
+//        this.ieltsQ = registerUniversityInfoDTO.getIelts();
+//        this.japaneseQ = registerUniversityInfoDTO.getJapaneseQ();
+//        this.chineseQ = registerUniversityInfoDTO.getChineseQ();
+//        this.qualificationEtc = registerUniversityInfoDTO.getQualificationEtc();
+//        this.expCost = registerUniversityInfoDTO.getExpCost();
+//        this.expCostDesc = registerUniversityInfoDTO.getExpCostDesc();
+//        this.benefit = registerUniversityInfoDTO.getBenefit();
+//        this.etc = registerUniversityInfoDTO.getEtc();
+//    }
 }

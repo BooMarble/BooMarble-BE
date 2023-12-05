@@ -66,11 +66,11 @@ public class UniversityInfoController {
 
 
     // 이 부분은 대학 정보 테이블 수정 후 다시 구현할 예정
-    @PostMapping("/register")
-    public ResponseEntity registerUniversityInfo(Authentication authentication, @RequestBody RegisterUniversityInfoDTO registerUniversityInfoDTO){
-        UniversityInfo universityInfo = universityInfoService.registerUniversityInfo(registerUniversityInfoDTO);
-        return ResponseEntity.ok(universityInfo);
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity registerUniversityInfo(Authentication authentication, @RequestBody RegisterUniversityInfoDTO registerUniversityInfoDTO){
+//        UniversityInfo universityInfo = universityInfoService.registerUniversityInfo(registerUniversityInfoDTO);
+//        return ResponseEntity.ok(universityInfo);
+//    }
 
     public long getUserPk(Authentication authentication){
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();

@@ -82,10 +82,10 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
             else return 400;
         } else return 404;
     }
-    @Override
-    @Transactional
-    public UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO) {
-        UniversityInfo universityInfo = new UniversityInfo(registerUniversityInfoDTO);
-        return universityInfoRepository.save(universityInfo);
-    }
+//    @Override
+//    @Transactional
+//    public UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO) {
+//        UniversityInfo universityInfo = new UniversityInfo(registerUniversityInfoDTO);
+//        return universityInfoRepository.save(universityInfo);
+//    }
 }

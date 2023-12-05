@@ -15,7 +15,7 @@ public class JapaneseQ {
     private long id;
     private String japanese;
 
-    @Builder
-    public JapaneseQ(UniversityInfo university){}
-
+    public JapaneseQ(String japanese) {
+        this.japanese = japanese;
+    }
 }
