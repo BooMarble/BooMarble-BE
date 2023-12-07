@@ -103,12 +103,12 @@ public class UniversityInfoFromExcelController {
                             if (ibtCell != null){
                                 if (ibtCell.getCellType() == CellType.NUMERIC){
                                     ibt = (int)ibtCell.getNumericCellValue();
-                                }
-                            } else {
-                                String[] ibts = ibtCell.getStringCellValue().split("\\(");
-                                ibt = Integer.parseInt(ibts[0]);
-                                if (ibts.length > 1) {
-                                    ibtEtc = "\n( ibt : " + ibts[1].replace("\n", " ");
+                                } else {
+                                    String[] ibts = ibtCell.getStringCellValue().split("\\(");
+                                    ibt = Integer.parseInt(ibts[0].replace("\n", "").replace(" ", ""));
+                                    if (ibts.length > 1) {
+                                        ibtEtc = "\n( ibt : " + ibts[1].replace("\n", " ");
+                                    }
                                 }
                             }
 
@@ -128,11 +128,12 @@ public class UniversityInfoFromExcelController {
                                 if (ieltsCell.getCellType() == CellType.NUMERIC){
                                     ielts = (float)ieltsCell.getNumericCellValue();
                                 }
-                            } else {
-                                String[] ieltss = row.getCell(8).getStringCellValue().split("\\(");
-                                ielts = Float.parseFloat(ieltss[0]);
-                                if (ieltss.length > 1) {
-                                    ieltsEtc = "\n( ielts" + ieltss[1].replace("\n", " ");
+                                else {
+                                    String[] ieltss = ieltsCell.getStringCellValue().split("\\(");
+                                    ielts = Float.parseFloat(ieltss[0].replace("\n", "").replace(" ", ""));
+                                    if (ieltss.length > 1) {
+                                        ieltsEtc = "\n( ielts" + ieltss[1].replace("\n", " ");
+                                    }
                                 }
                             }
 
@@ -252,7 +253,7 @@ public class UniversityInfoFromExcelController {
                                         continue;
                                     }
                                     else {
-                                        japanese = score[0].split(" ")[0];
+                                        japanese = score[0].split(" ")[0].replace(" ", "");
                                         if (score.length > 1){
                                             scoreEtc = score[1].replace(")", "");
                                         }
