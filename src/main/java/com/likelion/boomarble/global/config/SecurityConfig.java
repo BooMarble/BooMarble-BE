@@ -29,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/excel").permitAll()
+                .antMatchers("/excel/read").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/join").permitAll()
                 .antMatchers("/user").hasRole("USER")

@@ -16,7 +16,7 @@ public interface UniversityInfoService {
 
     UniversityInfoListDTO searchUniversityInfoList(String keyword);
 
-    UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO);
+//    UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO);
 
     UniversityNameListDTO getUniversitiedByCountry(Country country);
 
