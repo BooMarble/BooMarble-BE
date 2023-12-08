@@ -1,10 +1,13 @@
 package com.likelion.boomarble.domain.universityInfo.dto;
 
+import com.likelion.boomarble.domain.universityInfo.domain.ChineseQ;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -21,7 +24,7 @@ public class UniversityInfoDetailDTO {
     private int toeflQ; // 지원자격 토플
     private float ielts; // 지원자격 ielts
     private String japaneseQ; // 지원자격 jlpt
-    private String chineseQ; // 지원자격 hsk
+    private List<ChineseQ> chineseQ; // 지원자격 hsk
     private String qualificationEtc; // 지원자격 기타
     private String expCost; // 예상 비용
     private String expCostDesc; // 예상 비용 설명
@@ -36,11 +39,11 @@ public class UniversityInfoDetailDTO {
                 .period(universityInfo.getPeriod())
                 .recruitNum(universityInfo.getRecruitNum())
                 .gradeQ(universityInfo.getGradeQ())
-                .ibtQ(universityInfo.getIbtQ())
-                .toeflQ(universityInfo.getToeflQ())
-                .ielts(universityInfo.getIeltsQ())
-                .japaneseQ(universityInfo.getJapaneseQ())
-                .chineseQ(universityInfo.getChineseQ())
+                .ibtQ(universityInfo.getEnglishQ().getIbtQ())
+                .toeflQ(universityInfo.getEnglishQ().getToefl())
+                .ielts(universityInfo.getEnglishQ().getIeltsQ())
+                .japaneseQ(universityInfo.getJapaneseQ().getJapanese())
+                .chineseQ(universityInfo.getChineseQList())
                 .qualificationEtc(universityInfo.getQualificationEtc())
                 .expCost(universityInfo.getExpCost())
                 .expCostDesc(universityInfo.getExpCostDesc())
