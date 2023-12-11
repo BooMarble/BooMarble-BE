@@ -58,9 +58,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            cd /home/ec2-user/
-            sudo /usr/local/bin/docker-compose down
-            sudo docker ps -a
+            sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/boomarble:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
             sudo /usr/local/bin/docker-compose up -d
