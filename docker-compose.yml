@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    image: likelionboo/boomarble:latest
+    container_name: boomarble-server
+    restart: always
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: likelionboo/nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
