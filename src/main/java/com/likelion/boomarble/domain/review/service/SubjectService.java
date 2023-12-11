@@ -6,10 +6,13 @@ import com.likelion.boomarble.domain.review.dto.SubjectDTO;
 import com.likelion.boomarble.domain.review.dto.SubjectListDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface SubjectService {
 
-    public SubjectListDTO getSubjects(Long reviewId);
+    public List<Subjects> getSubjects(Review review);
     public Subjects createSubjects(Review review, SubjectDTO subjectDTO);
+    public Subjects updateSubjects(Long subjectsId, SubjectDTO subjectDTO);
 
 }

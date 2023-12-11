@@ -15,12 +15,13 @@ public class ReviewPrepDTO extends ReviewCommonDTO {
     private String fee;
     private String preparationEtc;
 
-    public static ReviewPrepDTO of(Review review){
+    public static ReviewPrepDTO of(Review review, Long currentUserId){
         return ReviewPrepDTO.builder()
                 .admission(review.getAdmission())
                 .fee(review.getFee())
                 .preparationEtc(review.getPreparationEtc())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

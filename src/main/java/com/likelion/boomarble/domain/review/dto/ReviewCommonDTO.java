@@ -14,5 +14,6 @@ import lombok.experimental.SuperBuilder;
 public class ReviewCommonDTO {
 
     private User writer;
+    private boolean yesWriter;
 
 }

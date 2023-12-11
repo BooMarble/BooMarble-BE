@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 public class ReviewActivityListDTO {
     private List<ReviewActivityDTO> reviewActivityDTOList;
 
-    public static ReviewActivityListDTO from(List<Review> reviews){
+    public static ReviewActivityListDTO from(List<Review> reviews, Long currentUserId){
         List<ReviewActivityDTO> activityDTOList = reviews.stream()
-                .map(ReviewActivityDTO::of)
+                .map(review -> ReviewActivityDTO.of(review, currentUserId))
                 .collect(Collectors.toList());
         return new ReviewActivityListDTO(activityDTOList);
     }

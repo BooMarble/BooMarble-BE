@@ -16,10 +16,11 @@ public class ReviewSubjectsDTO extends ReviewCommonDTO {
 
     private List<Subjects> subjects;
 
-    public static ReviewSubjectsDTO of(Review review){
+    public static ReviewSubjectsDTO of(Review review, Long currentUserId){
         return ReviewSubjectsDTO.builder()
                 .subjects(review.getSubjects())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

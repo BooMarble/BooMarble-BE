@@ -13,11 +13,12 @@ public class ReviewDormDTO extends ReviewCommonDTO{
     private String dormitoryName;
     private String dormitoryDesc;
 
-    public static ReviewDormDTO of(Review review){
+    public static ReviewDormDTO of(Review review, Long currentUserId){
         return ReviewDormDTO.builder()
                 .dormitoryName(review.getDormitoryName())
                 .dormitoryDesc(review.getDormitoryDesc())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

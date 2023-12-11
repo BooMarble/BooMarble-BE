@@ -13,10 +13,11 @@ public class ReviewAccGradeDTO extends ReviewCommonDTO {
 
     private String acceptedGrade;
 
-    public static ReviewAccGradeDTO of(Review review){
+    public static ReviewAccGradeDTO of(Review review, Long currentUserId){
         return ReviewAccGradeDTO.builder()
                 .acceptedGrade(review.getAcceptedGrade())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

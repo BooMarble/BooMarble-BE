@@ -16,13 +16,14 @@ public class ReviewCostDTO extends ReviewCommonDTO {
     private String insurance;
     private String costEtc;
 
-    public static ReviewCostDTO of(Review review){
+    public static ReviewCostDTO of(Review review, Long currentUserId){
         return ReviewCostDTO.builder()
                 .totalCost(review.getTotalCost())
                 .airfare(review.getAirfare())
                 .insurance(review.getInsurance())
                 .costEtc(review.getCostEtc())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

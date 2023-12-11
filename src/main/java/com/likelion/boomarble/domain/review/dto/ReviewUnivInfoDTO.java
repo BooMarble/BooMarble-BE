@@ -18,12 +18,13 @@ public class ReviewUnivInfoDTO extends ReviewCommonDTO{
     private String enrollment;
     private String program;
 
-    public static ReviewUnivInfoDTO of(Review review){
+    public static ReviewUnivInfoDTO of(Review review, Long currentUserId){
         return ReviewUnivInfoDTO.builder()
                 .transportation(review.getTransportation())
                 .enrollment(review.getEnrollment())
                 .program(review.getProgram())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 
