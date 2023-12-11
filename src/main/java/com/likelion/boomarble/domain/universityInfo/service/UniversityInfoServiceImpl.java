@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,9 +55,20 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     }
     @Override
     @Transactional
-    public UniversityNameListDTO getUniversitiedByCountry(Country country) {
-        List<UniversityInfo> universities = universityInfoRepository.findAllByCountry(country);
-        return UniversityNameListDTO.from(universities);
+    public CountryListDTO getUniversityByCountry() {
+        List<UniversityInfo> allUniversities = universityInfoRepository.findAll();
+
+        Map<Country, List<UniversityNameDTO>> groupedByCountry = allUniversities.stream()
+                .collect(Collectors.groupingBy(
+                        UniversityInfo::getCountry,
+                        Collectors.mapping(UniversityNameDTO::of, Collectors.toList())
+                ));
+
+        List<CountryNameWithUniversitiesDTO> countriesDTO = groupedByCountry.entrySet().stream()
+                .map(entry -> new CountryNameWithUniversitiesDTO(entry.getKey().getName(), entry.getValue()))
+                .collect(Collectors.toList());
+
+        return new CountryListDTO(countriesDTO);
     }
     @Override
     @Transactional
@@ -82,10 +95,4 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
             else return 400;
         } else return 404;
     }
-//    @Override
-//    @Transactional
-//    public UniversityInfo registerUniversityInfo(RegisterUniversityInfoDTO registerUniversityInfoDTO) {
-//        UniversityInfo universityInfo = new UniversityInfo(registerUniversityInfoDTO);
-//        return universityInfoRepository.save(universityInfo);
-//    }
 }
