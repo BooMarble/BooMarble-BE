@@ -26,7 +26,7 @@ jobs:
           echo "${{ secrets.AWS_CONFIGURATION }}" | base64 --decode > ./src/main/resources/application-aws.yml
           echo "${{ secrets.CREDENTIALS_CONFIGURATION }}" | base64 --decode > ./src/main/resources/application-credentials.yml
           
-          shell: bash
+        shell: bash
 
       - name: Build with Gradle
         run: ./gradlew bootJar
