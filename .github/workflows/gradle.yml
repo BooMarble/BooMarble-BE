@@ -31,28 +31,35 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew bootJar
 
-      - name: Docker login
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Docker Hub login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Spring Boot Docker image
+      - name: Build and push Docker images using Docker Compose
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/boomarble:latest -f Dockerfile .
-          docker push ${{ secrets.DOCKER_USERNAME }}/boomarble:latest
+          docker-compose build
+          docker-compose push
 
-      - name: Build and push Nginx Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nginx:latest -f ./nginx/Dockerfile ./nginx
-          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:latest
+      - name: Copy docker-compose.yml to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.KEY }}
+          source: docker-compose.yml
+          target: /home/ec2-user/
 
       - name: Executing remote SSH commands
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            sudo docker-compose down
+            sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/boomarble:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
-            sudo docker-compose up -d
+            sudo /usr/local/bin/docker-compose up -d
             sudo docker image prune -f
