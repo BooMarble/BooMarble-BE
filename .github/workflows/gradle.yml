@@ -45,7 +45,7 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/nginx:latest
 
       - name: Executing remote SSH commands
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.EC2_USERNAME }}
