@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UniversityNameDTO {
+    private long id;
     private String name;
 
     public static UniversityNameDTO of(UniversityInfo universityInfo){
         return UniversityNameDTO.builder()
+                .id(universityInfo.getId())
                 .name(universityInfo.getName()).build();
     }
 }

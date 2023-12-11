@@ -2,8 +2,6 @@ package com.likelion.boomarble.domain.universityInfo.controller;
 
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
-import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
-import com.likelion.boomarble.domain.universityInfo.dto.RegisterUniversityInfoDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
 import com.likelion.boomarble.domain.universityInfo.service.UniversityInfoService;
@@ -63,14 +61,6 @@ public class UniversityInfoController {
         else if(result == 404) return ResponseEntity.badRequest().body("좋아요를 누른 적이 없습니다.");
         return ResponseEntity.ok("좋아요가 정상적으로 취소가 되었습니다.");
     }
-
-
-    // 이 부분은 대학 정보 테이블 수정 후 다시 구현할 예정
-//    @PostMapping("/register")
-//    public ResponseEntity registerUniversityInfo(Authentication authentication, @RequestBody RegisterUniversityInfoDTO registerUniversityInfoDTO){
-//        UniversityInfo universityInfo = universityInfoService.registerUniversityInfo(registerUniversityInfoDTO);
-//        return ResponseEntity.ok(universityInfo);
-//    }
 
     public long getUserPk(Authentication authentication){
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
