@@ -37,15 +37,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Spring Boot Docker image
+      - name: Build and push Docker images using Docker Compose
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/boomarble:latest -f Dockerfile .
-          docker push ${{ secrets.DOCKER_USERNAME }}/boomarble:latest
-
-      - name: Build and push Nginx Docker image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/nginx:latest -f ./nginx/Dockerfile ./nginx
-          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:latest
+          docker-compose build
+          docker-compose push
 
       - name: Copy docker-compose.yml to EC2
         uses: appleboy/scp-action@master
@@ -63,8 +58,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            sudo docker-compose down
+            sudo /usr/local/bin/docker-compose down
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/boomarble:latest
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/nginx:latest
-            sudo docker-compose up -d
+            sudo /usr/local/bin/docker-compose up -d
             sudo docker image prune -f
