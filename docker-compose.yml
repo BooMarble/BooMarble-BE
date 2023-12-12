@@ -11,7 +11,9 @@ services:
       - boomarble
 
   nginx:
-    build: ./nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     image: likelionboo/nginx:latest
     container_name: nginx
     ports:
