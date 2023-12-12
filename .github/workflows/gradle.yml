@@ -45,7 +45,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.KEY }}
-          source: "./nginx/conf.d/nginx.conf"
+          source: "./nginx/nginx.conf"
           target: /home/ec2-user/
       - name: Executing remote SSH commands
         uses: appleboy/ssh-action@master
