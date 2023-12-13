@@ -6,7 +6,7 @@ import com.likelion.boomarble.domain.user.domain.User;
 import lombok.*;
 
 @Builder
-@Getter @Setter
+@Getter
 @AllArgsConstructor @NoArgsConstructor
 public class SubjectDTO {
 

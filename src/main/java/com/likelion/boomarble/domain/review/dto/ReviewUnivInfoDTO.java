@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewUnivInfoDTO extends ReviewCommonDTO{
@@ -18,12 +17,13 @@ public class ReviewUnivInfoDTO extends ReviewCommonDTO{
     private String enrollment;
     private String program;
 
-    public static ReviewUnivInfoDTO of(Review review){
+    public static ReviewUnivInfoDTO of(Review review, long currentUserId){
         return ReviewUnivInfoDTO.builder()
                 .transportation(review.getTransportation())
                 .enrollment(review.getEnrollment())
                 .program(review.getProgram())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

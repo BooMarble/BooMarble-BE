@@ -9,7 +9,6 @@ import java.util.List;
 
 @Builder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDetailDTO {
@@ -36,7 +35,7 @@ public class ReviewDetailDTO {
 //    private String exType;
 //    private String country;
     private String universityName;
-    private Long universityId;
+    private long universityId;
 
     public static ReviewDetailDTO from(Review review){
         return ReviewDetailDTO.builder()
@@ -59,8 +58,6 @@ public class ReviewDetailDTO {
                 .etc(review.getEtc())
                 .acceptedGrade(review.getAcceptedGrade())
                 .message(review.getMessage())
-//                .exType(review.getExType().getName())
-//                .country(review.getCountry().getName())
                 .universityId(review.getUniversityInfo().getId())
                 .universityName(review.getUniversityInfo().getName())
                 .build();
