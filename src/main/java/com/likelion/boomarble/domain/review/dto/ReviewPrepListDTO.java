@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ReviewPrepListDTO {
     private List<ReviewPrepDTO> reviewPrepDTOList;
 
-    public static ReviewPrepListDTO from(List<Review> reviews, Long currentUserId){
+    public static ReviewPrepListDTO from(List<Review> reviews, long currentUserId){
         List<ReviewPrepDTO> prepDTOList = reviews.stream()
                 .map(review -> ReviewPrepDTO.of(review, currentUserId))
                 .collect(Collectors.toList());

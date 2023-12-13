@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ReviewMessageListDTO {
     private List<ReviewMessageDTO> reviewMessageDTOList;
 
-    public static ReviewMessageListDTO from(List<Review> reviews, Long currentUserId){
+    public static ReviewMessageListDTO from(List<Review> reviews, long currentUserId){
         List<ReviewMessageDTO> messageDTOList = reviews.stream()
                 .map(review -> ReviewMessageDTO.of(review, currentUserId))
                 .collect(Collectors.toList());

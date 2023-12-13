@@ -13,6 +13,7 @@ public interface SubjectService {
 
     public List<Subjects> getSubjects(Review review);
     public Subjects createSubjects(Review review, SubjectDTO subjectDTO);
-    public Subjects updateSubjects(Long subjectsId, SubjectDTO subjectDTO);
+    public Subjects updateSubjects(long subjectsId, SubjectDTO subjectDTO);
+    public void deleteSubjects(long subjectsId);
 
 }

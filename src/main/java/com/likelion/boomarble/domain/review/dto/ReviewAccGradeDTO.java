@@ -6,14 +6,13 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewAccGradeDTO extends ReviewCommonDTO {
 
     private String acceptedGrade;
 
-    public static ReviewAccGradeDTO of(Review review, Long currentUserId){
+    public static ReviewAccGradeDTO of(Review review, long currentUserId){
         return ReviewAccGradeDTO.builder()
                 .acceptedGrade(review.getAcceptedGrade())
                 .writer(review.getWriter())

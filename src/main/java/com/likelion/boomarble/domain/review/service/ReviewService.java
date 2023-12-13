@@ -13,19 +13,21 @@ import org.springframework.stereotype.Service;
 public interface ReviewService {
 
     UniversityInfoListDTO getUniversityList(Country country, String university, ExType type);
-    UniversityInfoViewDTO getUniversity(Long universityInfoId);
-    ReviewAccGradeListDTO getReviewAccGrade(Authentication authentication, Long universityInfoId);
-    ReviewActivityListDTO getReviewActivity(Authentication authentication, Long universityInfoId);
-    ReviewCostListDTO getReviewCost(Authentication authentication, Long universityInfoId);
-    ReviewDormListDTO getReviewDorm(Authentication authentication, Long universityInfoId);
-    ReviewEtcListDTO getReviewEtc(Authentication authentication, Long universityInfoId);
-    ReviewMessageListDTO getReviewMessage(Authentication authentication, Long universityInfoId);
-    ReviewPrepListDTO getReviewPrep(Authentication authentication, Long universityInfoId);
-    ReviewSubjectsListDTO getReviewSubjects(Authentication authentication, Long universityInfoId);
-    ReviewUnivInfoListDTO getReviewUnivInfo(Authentication authentication, Long universityInfoId);
-    ReviewDetailDTO getReview(Long reviewId);
-    Review createReview(Long userId, ReviewCreateDTO reviewCreateDTO);
-    Review updateReview(Authentication authentication, Long reviewId, ReviewCreateDTO reviewCreateDTO);
-    void deleteReview(Authentication authentication, Long reviewId);
+    UniversityInfoViewDTO getUniversity(long universityInfoId);
+    ReviewAccGradeListDTO getReviewAccGrade(Authentication authentication, long universityInfoId);
+    ReviewActivityListDTO getReviewActivity(Authentication authentication, long universityInfoId);
+    ReviewCostListDTO getReviewCost(Authentication authentication, long universityInfoId);
+    ReviewDormListDTO getReviewDorm(Authentication authentication, long universityInfoId);
+    ReviewEtcListDTO getReviewEtc(Authentication authentication, long universityInfoId);
+    ReviewMessageListDTO getReviewMessage(Authentication authentication, long universityInfoId);
+    ReviewPrepListDTO getReviewPrep(Authentication authentication, long universityInfoId);
+    ReviewSubjectsListDTO getReviewSubjects(Authentication authentication, long universityInfoId);
+    ReviewUnivInfoListDTO getReviewUnivInfo(Authentication authentication, long universityInfoId);
+    ReviewDetailDTO getReview(long reviewId);
+    Review createReview(long userId, ReviewCreateDTO reviewCreateDTO);
+    Review updateReview(Authentication authentication, long reviewId, ReviewCreateDTO reviewCreateDTO);
+    void deleteReview(Authentication authentication, long reviewId);
+    int scrapReview(long reviewId, long userId);
+    int unscrapReview(long reviewId, long userId);
 
 }

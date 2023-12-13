@@ -4,6 +4,7 @@ import com.likelion.boomarble.domain.community.domain.Community;
 import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +27,13 @@ public class Scrap {
     @JoinColumn(name = "community")
     private Community community;
     private int type;
+
+    @Builder
+    public Scrap(User user, Review review, Community community, int type){
+        this.user = user;
+        this.review = review;
+        this.community = community;
+        this.type = type;
+    }
 
 }

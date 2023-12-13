@@ -2,6 +2,8 @@ package com.likelion.boomarble.domain.review.service;
 
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
+import com.likelion.boomarble.domain.model.Scrap;
+import com.likelion.boomarble.domain.model.repository.ScrapRepository;
 import com.likelion.boomarble.domain.review.domain.Review;
 import com.likelion.boomarble.domain.review.dto.*;
 import com.likelion.boomarble.domain.review.exception.ReviewNotFoundException;
@@ -19,6 +21,7 @@ import com.likelion.boomarble.global.error.NoPermissionException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,7 @@ public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final UniversityInfoRepository universityInfoRepository;
     private final UserRepository userRepository;
+    private final ScrapRepository scrapRepository;
 
     @Override
     @Transactional
@@ -45,92 +49,92 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public UniversityInfoViewDTO getUniversity(Long universityInfoId) {
+    public UniversityInfoViewDTO getUniversity(long universityInfoId) {
         UniversityInfo universityInfo = universityInfoRepository.findById(universityInfoId)
                 .orElseThrow(() -> new UniversityInfoNotFoundException("해당 대학교가 존재하지 않습니다."));
         return UniversityInfoViewDTO.of(universityInfo);
     }
 
     @Override
-    public ReviewAccGradeListDTO getReviewAccGrade(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewAccGradeListDTO getReviewAccGrade(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewAccGradeListDTO.from(reviews, currentUserId);
 
     }
 
     @Override
-    public ReviewActivityListDTO getReviewActivity(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewActivityListDTO getReviewActivity(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewActivityListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewCostListDTO getReviewCost(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewCostListDTO getReviewCost(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewCostListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewDormListDTO getReviewDorm(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewDormListDTO getReviewDorm(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewDormListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewEtcListDTO getReviewEtc(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewEtcListDTO getReviewEtc(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewEtcListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewMessageListDTO getReviewMessage(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewMessageListDTO getReviewMessage(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewMessageListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewPrepListDTO getReviewPrep(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewPrepListDTO getReviewPrep(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewPrepListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewSubjectsListDTO getReviewSubjects(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewSubjectsListDTO getReviewSubjects(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewSubjectsListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewUnivInfoListDTO getReviewUnivInfo(Authentication authentication, Long universityInfoId) {
-        Long currentUserId = getUserPk(authentication);
+    public ReviewUnivInfoListDTO getReviewUnivInfo(Authentication authentication, long universityInfoId) {
+        long currentUserId = getUserPk(authentication);
         List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
         return ReviewUnivInfoListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewDetailDTO getReview(Long reviewId) {
+    public ReviewDetailDTO getReview(long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
         return ReviewDetailDTO.from(review);
     }
 
     @Override
-    public Review createReview(Long userId, ReviewCreateDTO reviewCreateDTO) {
+    public Review createReview(long userId, ReviewCreateDTO reviewCreateDTO) {
         Optional<User> user = userRepository.findById(userId);
         Review review = new Review(reviewCreateDTO, user.get());
         return reviewRepository.save(review);
     }
 
     @Override
-    public Review updateReview(Authentication authentication, Long reviewId, ReviewCreateDTO reviewCreateDTO) {
+    public Review updateReview(Authentication authentication, long reviewId, ReviewCreateDTO reviewCreateDTO) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
         if (review.getWriter().getId() == getUserPk(authentication)){
@@ -142,7 +146,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public void deleteReview(Authentication authentication, Long reviewId) {
+    public void deleteReview(Authentication authentication, long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
         if (review.getWriter().getId() == getUserPk(authentication)){
@@ -151,6 +155,32 @@ public class ReviewServiceImpl implements ReviewService{
             throw new NoPermissionException("권한이 없습니다.");
         }
     }
+
+    @Override
+    public int scrapReview(long reviewId, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
+        if (scrapRepository.findByUserAndReview(user, review).isPresent()) return 409;
+        if (scrapRepository.save(new Scrap(user, review, null, 1)) == null) return 400;
+        return 200;
+    }
+
+    @Override
+    public int unscrapReview(long reviewId, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
+        Optional<Scrap> scrap = scrapRepository.findByUserAndReview(user, review);
+        if (scrap.isPresent()){
+            scrapRepository.delete(scrap.get());
+            if (scrapRepository.findByUserAndReview(user, review).isEmpty()) return 200;
+            else return 400;
+        } else return 404;
+    }
+
 
     private long getUserPk(Authentication authentication){
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();

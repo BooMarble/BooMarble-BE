@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewCostDTO extends ReviewCommonDTO {
@@ -16,7 +15,7 @@ public class ReviewCostDTO extends ReviewCommonDTO {
     private String insurance;
     private String costEtc;
 
-    public static ReviewCostDTO of(Review review, Long currentUserId){
+    public static ReviewCostDTO of(Review review, long currentUserId){
         return ReviewCostDTO.builder()
                 .totalCost(review.getTotalCost())
                 .airfare(review.getAirfare())

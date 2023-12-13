@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 
 @SuperBuilder
-@Getter @Setter
+@Getter
 @AllArgsConstructor @NoArgsConstructor
 public class ReviewCommonDTO {
 

@@ -31,10 +31,17 @@ public class SubjectServiceImpl implements SubjectService{
     }
 
     @Override
-    public Subjects updateSubjects(Long subjectsId, SubjectDTO subjectDTO) {
+    public Subjects updateSubjects(long subjectsId, SubjectDTO subjectDTO) {
         Subjects subjects = subjectRepository.findById(subjectsId)
                 .orElseThrow(() -> new SubjectsNotFoundException("해당 수강과목이 존재하지 않습니다."));
         subjects.setSubjects(subjectDTO);
         return subjectRepository.save(subjects);
+    }
+
+    @Override
+    public void deleteSubjects(long subjectsId) {
+        Subjects subjects = subjectRepository.findById(subjectsId)
+                .orElseThrow(() -> new SubjectsNotFoundException("해당 수강과목이 존재하지 않습니다."));
+        subjectRepository.delete(subjects);
     }
 }

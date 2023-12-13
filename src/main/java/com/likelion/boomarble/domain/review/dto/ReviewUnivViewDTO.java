@@ -16,7 +16,7 @@ public class ReviewUnivViewDTO {
     private String universityCountry;
     private String universityType;
     private String universitySemester;
-    private Long universityReviewCnt;
+    private long universityReviewCnt;
 
     public static ReviewUnivViewDTO of(UniversityInfo universityInfo){
         return ReviewUnivViewDTO.builder()
