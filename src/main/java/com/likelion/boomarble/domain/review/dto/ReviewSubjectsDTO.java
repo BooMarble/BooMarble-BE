@@ -9,17 +9,17 @@ import java.util.List;
 
 @SuperBuilder
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewSubjectsDTO extends ReviewCommonDTO {
 
     private List<Subjects> subjects;
 
-    public static ReviewSubjectsDTO of(Review review){
+    public static ReviewSubjectsDTO of(Review review, long currentUserId){
         return ReviewSubjectsDTO.builder()
                 .subjects(review.getSubjects())
                 .writer(review.getWriter())
+                .yesWriter(review.getWriter().getId() == currentUserId)
                 .build();
     }
 

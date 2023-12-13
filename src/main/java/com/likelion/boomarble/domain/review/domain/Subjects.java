@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@DynamicUpdate
 @AllArgsConstructor @NoArgsConstructor
 public class Subjects {
 
@@ -41,5 +43,12 @@ public class Subjects {
         this.grade = subjectDTO.getGrade();
         this.satisfied = subjectDTO.getSatisfied();
         this.review = review;
+    }
+
+    public void setSubjects(SubjectDTO subjectDTO){
+        this.className = subjectDTO.getClassName();
+        this.code = subjectDTO.getCode();
+        this.grade = subjectDTO.getGrade();
+        this.satisfied = subjectDTO.getSatisfied();
     }
 }

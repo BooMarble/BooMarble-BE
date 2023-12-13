@@ -9,6 +9,7 @@ import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -16,10 +17,12 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
 @AllArgsConstructor @NoArgsConstructor
 public class Review {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
     @JoinColumn(name = "writer")
@@ -55,7 +58,7 @@ public class Review {
     private String acceptedGrade;
     @Column(length = 2048)
     private String message;
-//    private ExType exType;
+    //    private ExType exType;
 //    private Country country;
     @ManyToOne
     @JoinColumn(name = "university")
@@ -104,6 +107,28 @@ public class Review {
         this.message = reviewCreateDTO.getMessage();
 //        this.exType = ExType.valueOf(reviewCreateDTO.getExType());
 //        this.country = Country.valueOf(reviewCreateDTO.getCountry());
+        this.universityInfo = reviewCreateDTO.getUniversityInfo();
+    }
+
+    public void setReview(ReviewCreateDTO reviewCreateDTO) {
+        this.semester = reviewCreateDTO.getSemester();
+        this.dormitoryName = reviewCreateDTO.getDormitoryName();
+        this.dormitoryDesc = reviewCreateDTO.getDormitoryDesc();
+        this.admission = reviewCreateDTO.getAdmission();
+        this.fee = reviewCreateDTO.getFee();
+        this.preparationEtc = reviewCreateDTO.getPreparationEtc();
+        this.transportation = reviewCreateDTO.getTransportation();
+        this.enrollment = reviewCreateDTO.getEnrollment();
+        this.program = reviewCreateDTO.getProgram();
+        this.subjects = reviewCreateDTO.getSubjects();
+        this.activities = reviewCreateDTO.getActivities();
+        this.totalCost = reviewCreateDTO.getTotalCost();
+        this.airfare = reviewCreateDTO.getAirfare();
+        this.insurance = reviewCreateDTO.getInsurance();
+        this.costEtc = reviewCreateDTO.getCostEtc();
+        this.etc = reviewCreateDTO.getEtc();
+        this.acceptedGrade = reviewCreateDTO.getAcceptedGrade();
+        this.message = reviewCreateDTO.getMessage();
         this.universityInfo = reviewCreateDTO.getUniversityInfo();
     }
 }
