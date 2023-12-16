@@ -1,11 +1,10 @@
 package com.likelion.boomarble.domain.community.controller;
 
+import com.likelion.boomarble.domain.community.domain.Comment;
 import com.likelion.boomarble.domain.community.domain.Community;
-import com.likelion.boomarble.domain.community.dto.CommunityCreateDTO;
-import com.likelion.boomarble.domain.community.dto.CommunityDetailDTO;
-import com.likelion.boomarble.domain.community.dto.CommunityListDTO;
-import com.likelion.boomarble.domain.community.dto.CommunityTagMap;
+import com.likelion.boomarble.domain.community.dto.*;
 import com.likelion.boomarble.domain.community.repository.CommunityRepository;
+import com.likelion.boomarble.domain.community.service.CommentService;
 import com.likelion.boomarble.domain.community.service.CommunityService;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
@@ -20,9 +19,15 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/posts")
-public class CommunityController {
+public class CommunityController  {
 
     private final CommunityService communityService;
+    private final CommentService commentService;
+
+    public long getUserPk(Authentication authentication){
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        return customUserDetails.getUserPk();
+    }
 
     @PostMapping("")
     public ResponseEntity postCommunity(
@@ -51,13 +56,47 @@ public class CommunityController {
         return ResponseEntity.ok(communityDetailDTO);
     }
 
-
-    public long getUserPk(Authentication authentication){
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        return customUserDetails.getUserPk();
+    //댓글
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity createComment(
+            Authentication authentication,
+            @PathVariable long postId,
+            @RequestBody CommentRequestDTO commentRequestDTO){
+        long userId = getUserPk(authentication);
+        commentRequestDTO.setUserId(userId);
+        Comment result = commentService.createComment(postId, commentRequestDTO);
+        if (result == null) return ResponseEntity.badRequest().build();
+        else return ResponseEntity.ok("댓글이 정상적으로 등록되었습니다.");
     }
 
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity getCommentList(Authentication authentication, @PathVariable long postId){
+        List<CommentResponseDTO> commentList = commentService.findCommentsByPostId(postId);
+        return ResponseEntity.ok(commentList);
+    }
 
+    @PostMapping("/{postId}/scrap")
+    public ResponseEntity scrapCommunity(
+            Authentication authentication,
+            @PathVariable long postId
+    ){
+        long userId = getUserPk(authentication);
+        int result = communityService.scrapReview(postId, userId);
+        if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        else if (result == 409) return ResponseEntity.badRequest().body("이미 스크랩되었습니다.");
+        return ResponseEntity.ok("스크랩 완료되었습니다.");
+    }
 
+    @DeleteMapping("/{postId}/scrap")
+    public ResponseEntity unscrapCommunity(
+            Authentication authentication,
+            @PathVariable long postId
+    ){
+        long userId = getUserPk(authentication);
+        int result = communityService.unscrapReview(postId, userId);
+        if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        else if (result == 404) return ResponseEntity.badRequest().body("스크랩한 기록이 없습니다.");
+        return ResponseEntity.ok("스크랩이 정상적으로 취소되었습니다.");
+    }
 
 }
