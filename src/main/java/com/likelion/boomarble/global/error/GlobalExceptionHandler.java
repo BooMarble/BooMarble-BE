@@ -1,4 +1,5 @@
 package com.likelion.boomarble.global.error;
+import com.likelion.boomarble.domain.prediction.exception.InvalidScoreException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.http.ResponseEntity;
@@ -12,5 +13,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         String message = "유효하지 않은 값: " + ex.getValue() + ". " + ex.getName() + "은(는) 유효한 값을 제공해야 합니다.";
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidScoreException.class)
+    public ResponseEntity<Object> handleInvalidJapaneseScoreException(InvalidScoreException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
