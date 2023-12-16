@@ -17,11 +17,11 @@ public class EnglishPrediction {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String testType;
-    private int score;
+    private double score;
     private double convertedScore;
 
     @Builder
-    public EnglishPrediction(String testType, int score, double convertedScore){
+    public EnglishPrediction(String testType, double score, double convertedScore){
         this.testType = testType;
         this.score = score;
         this.convertedScore = convertedScore;

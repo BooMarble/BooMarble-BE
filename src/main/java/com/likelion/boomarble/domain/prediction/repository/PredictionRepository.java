@@ -27,5 +27,11 @@ public interface PredictionRepository extends JpaRepository<Prediction, Long> {
             "WHERE p.university = :universityId AND p.ex_type = :exType AND cp.chinese_type = :type",
             nativeQuery = true)
     List<Object[]> findChineseRankingsByUniversityId(@Param("universityId") long universityId, @Param("exType") int exType, @Param("type") int chineseType);
+    @Query(value = "SELECT ep.converted_score, ROW_NUMBER() OVER (ORDER BY ep.converted_score DESC) as rankNum, p.user as userId " +
+            "FROM Prediction p " +
+            "LEFT JOIN english_prediction ep ON p.english_prediction_id = ep.id " +
+            "WHERE p.university = :universityId AND p.ex_type = :exType",
+            nativeQuery = true)
+    List<Object[]> findEnglishRankingsByUniversityId(@Param("universityId") long universityId, @Param("exType") int exType);
     Prediction findByUserAndExTypeAndUniversity(User user, ExType exType, UniversityInfo universityInfo);
 }

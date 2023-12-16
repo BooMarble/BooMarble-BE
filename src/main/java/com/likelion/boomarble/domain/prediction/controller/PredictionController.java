@@ -40,6 +40,13 @@ public class PredictionController {
         return ResponseEntity.ok(predictionResultDTO);
     }
 
+    @PostMapping("/english")
+    public ResponseEntity applyEnglishPrediction(Authentication authentication, @RequestBody PredictionEnglishInfoDTO predictionEnglishInfoDTO){
+        long userId = getUserPk(authentication);
+        PredictionResultDTO predictionResultDTO = predictionService.applyEnglishPrediction(userId, predictionEnglishInfoDTO);
+        return ResponseEntity.ok(predictionResultDTO);
+    }
+
     public long getUserPk(Authentication authentication){
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         return customUserDetails.getUserPk();

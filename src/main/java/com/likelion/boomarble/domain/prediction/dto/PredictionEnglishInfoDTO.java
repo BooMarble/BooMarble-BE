@@ -18,5 +18,5 @@ public class PredictionEnglishInfoDTO {
     private ExType exType;
     private double grade;
     private String testType;
-    private int score;
+    private double score;
 }

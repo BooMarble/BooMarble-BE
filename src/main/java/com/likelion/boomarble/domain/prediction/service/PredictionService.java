@@ -1,9 +1,6 @@
 package com.likelion.boomarble.domain.prediction.service;
 
-import com.likelion.boomarble.domain.prediction.dto.BasicInformationDTO;
-import com.likelion.boomarble.domain.prediction.dto.PredictionChineseInfoDTO;
-import com.likelion.boomarble.domain.prediction.dto.PredictionJapaneseInfoDTO;
-import com.likelion.boomarble.domain.prediction.dto.PredictionResultDTO;
+import com.likelion.boomarble.domain.prediction.dto.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,4 +11,6 @@ public interface PredictionService {
     PredictionResultDTO applyJapanesePrediction(long userId, PredictionJapaneseInfoDTO predictionJapaneseInfoDTO);
 
     PredictionResultDTO applyChinesePrediction(long userId, PredictionChineseInfoDTO predictionChineseInfoDTO);
+
+    PredictionResultDTO applyEnglishPrediction(long userId, PredictionEnglishInfoDTO predictionEnglishInfoDTO);
 }
