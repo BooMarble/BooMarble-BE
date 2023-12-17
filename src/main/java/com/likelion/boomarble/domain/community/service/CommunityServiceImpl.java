@@ -8,14 +8,19 @@ import com.likelion.boomarble.domain.community.repository.CommunityTagRepository
 import com.likelion.boomarble.domain.community.specification.CommunitySpecification;
 import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.model.ExType;
+import com.likelion.boomarble.domain.model.Scrap;
 import com.likelion.boomarble.domain.model.Tag;
+import com.likelion.boomarble.domain.model.repository.ScrapRepository;
 import com.likelion.boomarble.domain.model.repository.TagRepository;
+import com.likelion.boomarble.domain.review.domain.Review;
+import com.likelion.boomarble.domain.review.exception.ReviewNotFoundException;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRepository;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +38,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final UserRepository userRepository;
     private final CommunityTagRepository communityTagRepository;
     private final UniversityInfoRepository universityInfoRepository;
+    private final ScrapRepository scrapRepository;
 
     @Override
     @Transactional
@@ -106,4 +112,28 @@ public class CommunityServiceImpl implements CommunityService {
         return tagList;
     }
 
+    @Override
+    public int scrapReview(long postId, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
+        Community post = communityRepository.findById(postId)
+                .orElseThrow(() -> new CommunityNotFoundException("해당 게시글이 존재하지 않습니다."));
+        if (scrapRepository.findByUserAndCommunity(user, post).isPresent()) return 409;
+        if (scrapRepository.save(new Scrap(user, null, post, 1)) == null) return 400;
+        return 200;
+    }
+
+    @Override
+    public int unscrapReview(long postId, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
+        Community post = communityRepository.findById(postId)
+                .orElseThrow(() -> new CommunityNotFoundException("해당 게시글이 존재하지 않습니다."));
+        Optional<Scrap> scrap = scrapRepository.findByUserAndCommunity(user, post);
+        if (scrap.isPresent()){
+            scrapRepository.delete(scrap.get());
+            if (scrapRepository.findByUserAndCommunity(user,post).isEmpty()) return 200;
+            else return 400;
+        } else return 404;
+    }
 }
