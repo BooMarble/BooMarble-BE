@@ -20,6 +20,7 @@ public class User {
     private String major1;
     private String major2;
     private String studentId;
+    private int predictionCnt;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -39,5 +40,12 @@ public class User {
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
+    }
+
+    public void applyPrediction(){ this.predictionCnt-=1;}
+
+    @PrePersist
+    public void setPredictionCnt() {
+        this.predictionCnt = 3;
     }
 }

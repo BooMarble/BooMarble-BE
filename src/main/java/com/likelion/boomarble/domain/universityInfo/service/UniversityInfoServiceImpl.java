@@ -44,7 +44,7 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     @Transactional
     public UniversityInfoDetailDTO getUniversityInfoDetail(long universityId) {
         UniversityInfo universityInfo = universityInfoRepository.findById(universityId)
-                .orElseThrow(() -> new UniversityInfoNotFoundException("해당 대학 정보가 없습니다."));
+                .orElseThrow(() -> new UniversityInfoNotFoundException("해당 대학정보가 존재하지 않습니다."));
         return UniversityInfoDetailDTO.from(universityInfo);
     }
     @Override
