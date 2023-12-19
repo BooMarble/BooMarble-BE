@@ -42,18 +42,6 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     @Transactional
-    public CommunityListDTO getCommunityList(Country country, String university, ExType type, String semester) {
-        Specification<Community> spec = Specification.where(CommunitySpecification.hasCountry(country))
-                .and(CommunitySpecification.hasUniversity(university))
-                .and(CommunitySpecification.hasType(type))
-                .and(CommunitySpecification.hasSemester(semester));
-
-        List<Community> communities = communityRepository.findAll(spec);
-        return CommunityListDTO.from(communities);
-    }
-
-    @Override
-    @Transactional
     public Community createCommunityPost(Long userId, CommunityCreateDTO communityCreateDTO) {
         Optional<User> user = userRepository.findById(userId);
         long universityId = communityCreateDTO.getPostUniversityId();
@@ -70,10 +58,11 @@ public class CommunityServiceImpl implements CommunityService {
         // 태그에 학기, 대학, 나라, 교환유형 추가
         ArrayList<String> tagList = new ArrayList(
                 Arrays.asList(communityCreateDTO.getPostTags().split(",")));
-        if(semester != null) { tagList.add(semester); }
-        if(university != null) { tagList.add(university.getName()); }
-        if(country != null) { tagList.add(country.getName()); }
-        if(exType != null) { tagList.add(exType.getName()); }
+
+        if(university != null) { tagList.add(0, university.getName()); }
+        if(country != null) { tagList.add(0, country.getName()); }
+        if(exType != null) { tagList.add(0, exType.getName()); }
+        if(semester != null) { tagList.add(0, semester); }
 
         // 해시태그 추가
         for(String tag : tagList){
@@ -89,6 +78,18 @@ public class CommunityServiceImpl implements CommunityService {
             communityTagRepository.save(communityTagMap);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public CommunityListDTO getCommunityList(Country country, String university, ExType type, String semester) {
+        Specification<Community> spec = Specification.where(CommunitySpecification.hasCountry(country))
+                .and(CommunitySpecification.hasUniversity(university))
+                .and(CommunitySpecification.hasType(type))
+                .and(CommunitySpecification.hasSemester(semester));
+
+        List<Community> communities = communityRepository.findAll(spec);
+        return CommunityListDTO.from(communities);
     }
 
     @Override
@@ -112,7 +113,9 @@ public class CommunityServiceImpl implements CommunityService {
         return tagList;
     }
 
+    // Scrap
     @Override
+    @Transactional
     public int scrapReview(long postId, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
@@ -124,6 +127,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
+    @Transactional
     public int unscrapReview(long postId, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));

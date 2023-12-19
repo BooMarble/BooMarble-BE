@@ -34,7 +34,7 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent", orphanRemoval = true)
+    @OneToMany(mappedBy = "parent", orphanRemoval = true) //부모 댓글이 삭제되면 자식 댓글도 삭제
     private List<Comment> children = new ArrayList<>();
 
     @ManyToOne
@@ -61,5 +61,7 @@ public class Comment extends BaseTimeEntity {
         this.isDeleted = isDeleted;
     }
 
-
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
