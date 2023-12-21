@@ -36,7 +36,7 @@ public class CommunityController  {
         long userId = getUserPk(authentication);
         Community result = communityService.createCommunityPost(userId, communityCreateDTO);
         if (result == null) return ResponseEntity.badRequest().build();
-        else return ResponseEntity.ok("커뮤니티 글이 정상적으로 등록되었습니다.");
+        else return ResponseEntity.ok("커뮤니티 글이 정상적으로 등록되었습니다. id: " + result.getId());
     }
 
     @GetMapping("")
@@ -56,7 +56,7 @@ public class CommunityController  {
         return ResponseEntity.ok(communityDetailDTO);
     }
 
-    //댓글
+    //comment
     @PostMapping("/{postId}/comments")
     public ResponseEntity createComment(
             Authentication authentication,
@@ -66,7 +66,7 @@ public class CommunityController  {
         commentRequestDTO.setUserId(userId);
         Comment result = commentService.createComment(postId, commentRequestDTO);
         if (result == null) return ResponseEntity.badRequest().build();
-        else return ResponseEntity.ok("댓글이 정상적으로 등록되었습니다.");
+        else return ResponseEntity.ok("댓글이 정상적으로 등록되었습니다. id: " + result.getId());
     }
 
     @GetMapping("/{postId}/comments")
@@ -75,6 +75,22 @@ public class CommunityController  {
         return ResponseEntity.ok(commentList);
     }
 
+    @PutMapping("/{postId}/comments/{commentId}")
+    public ResponseEntity updateComment(
+            Authentication authentication,
+            @PathVariable long commentId,
+            @RequestBody CommentRequestDTO commentRequestDTO){
+            commentService.update(commentId, commentRequestDTO);
+            return ResponseEntity.ok("댓글이 수정되었습니다. id: " + commentId);
+    }
+
+    @DeleteMapping("/{postId}/comments/{commentId}")
+    public ResponseEntity deleteComment(Authentication authentication, @PathVariable long commentId){
+        commentService.delete(commentId);
+        return ResponseEntity.ok("댓글이 삭제되었습니다. id: " + commentId);
+    }
+
+    //scrap
     @PostMapping("/{postId}/scrap")
     public ResponseEntity scrapCommunity(
             Authentication authentication,
@@ -83,8 +99,8 @@ public class CommunityController  {
         long userId = getUserPk(authentication);
         int result = communityService.scrapReview(postId, userId);
         if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
-        else if (result == 409) return ResponseEntity.badRequest().body("이미 스크랩되었습니다.");
-        return ResponseEntity.ok("스크랩 완료되었습니다.");
+        else if (result == 409) return ResponseEntity.badRequest().body("이미 스크랩되었습니다. id: " + postId);
+        return ResponseEntity.ok("스크랩 완료되었습니다. id: " + postId);
     }
 
     @DeleteMapping("/{postId}/scrap")
@@ -95,8 +111,8 @@ public class CommunityController  {
         long userId = getUserPk(authentication);
         int result = communityService.unscrapReview(postId, userId);
         if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
-        else if (result == 404) return ResponseEntity.badRequest().body("스크랩한 기록이 없습니다.");
-        return ResponseEntity.ok("스크랩이 정상적으로 취소되었습니다.");
+        else if (result == 404) return ResponseEntity.badRequest().body("스크랩한 기록이 없습니다. id: " + postId);
+        return ResponseEntity.ok("스크랩이 정상적으로 취소되었습니다. id: " + postId);
     }
 
 }

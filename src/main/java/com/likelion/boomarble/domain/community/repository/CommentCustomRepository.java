@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface CommentCustomRepository {
     List<CommentResponseDTO> findByBoardId(Long id);
-    Optional<Comment> findCommentByIdWithParent(Long id);
+    Optional<Comment> findCommentByBIdWithParent(Long id);
 }
