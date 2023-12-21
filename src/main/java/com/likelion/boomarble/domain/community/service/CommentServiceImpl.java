@@ -55,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void update(Long commentId, CommentRequestDTO commentRequestDTO) {
+    public void update(long commentId, CommentRequestDTO commentRequestDTO) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException("해당 댓글을 찾을 수 없습니다. id: " + commentId));
         comment.updateContent(commentRequestDTO.getContent());
@@ -63,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void delete(Long commentId) {
+    public void delete(long commentId) {
         Comment comment = commentRepository.findCommentByBIdWithParent(commentId)
                 .orElseThrow(() -> new NotFoundException("해당 댓글을 찾을 수 없습니다. id: " + commentId));
         if(comment.getChildren().size() != 0){  //자식이 있으면 상태만 변경

@@ -1,5 +1,6 @@
 package com.likelion.boomarble.domain.community.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.likelion.boomarble.domain.community.domain.Community;
 import com.likelion.boomarble.domain.community.dto.*;
 import com.likelion.boomarble.domain.community.exception.CommunityNotFoundException;
@@ -12,8 +13,6 @@ import com.likelion.boomarble.domain.model.Scrap;
 import com.likelion.boomarble.domain.model.Tag;
 import com.likelion.boomarble.domain.model.repository.ScrapRepository;
 import com.likelion.boomarble.domain.model.repository.TagRepository;
-import com.likelion.boomarble.domain.review.domain.Review;
-import com.likelion.boomarble.domain.review.exception.ReviewNotFoundException;
 import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRepository;
 import com.likelion.boomarble.domain.user.domain.User;
@@ -39,6 +38,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityTagRepository communityTagRepository;
     private final UniversityInfoRepository universityInfoRepository;
     private final ScrapRepository scrapRepository;
+    private final CommentService commentService;
 
     @Override
     @Transactional
@@ -113,10 +113,38 @@ public class CommunityServiceImpl implements CommunityService {
         return tagList;
     }
 
+    @Override
+    @Transactional
+    public int updateCommunityPost(long postId, CommunityCreateDTO communityCreateDTO, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다."));
+        communityRepository.findById(postId).orElseThrow(() -> new NotFoundException("해당 게시글이 존재하지 않습니다."));
+        Community post = communityRepository.findByIdAndWriter(postId, user)
+                .orElseThrow(() -> new NotFoundException("해당 글의 유저가 아닙니다."));
+        if (post != null) {
+            post.updateTitleAndContent(communityCreateDTO.getPostTitle(), communityCreateDTO.getPostContent());
+            return 200;
+        } else return 400;
+    }
+
+    @Override
+    @Transactional
+    public int deleteCommunityPost(long postId, long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다."));
+        communityRepository.findById(postId).orElseThrow(() -> new CommunityNotFoundException("해당 게시글이 존재하지 않습니다."));
+        Optional<Community> post = communityRepository.findByIdAndWriter(postId, user);
+        if (post.isPresent()){
+            communityRepository.delete(post.get());
+            if (communityRepository.findByIdAndWriter(postId, user).isEmpty()) return 200;
+            else return 400;
+        } else return 404;
+    }
+
     // Scrap
     @Override
     @Transactional
-    public int scrapReview(long postId, long userId) {
+    public int scrapCommunityPost(long postId, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
         Community post = communityRepository.findById(postId)
@@ -128,7 +156,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     @Transactional
-    public int unscrapReview(long postId, long userId) {
+    public int unscrapCommunityPost(long postId, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
         Community post = communityRepository.findById(postId)
