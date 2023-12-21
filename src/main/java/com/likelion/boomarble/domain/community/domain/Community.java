@@ -35,8 +35,11 @@ public class Community {
     @JoinColumn(name = "university")
     private UniversityInfo university;
     @JsonIgnore
-    @OneToMany(mappedBy = "community")
+    @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<CommunityTagMap> communityTagList;
+    @JsonIgnore
+    @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private List<Comment> commentList;
 
     public Community(CommunityCreateDTO communityCreateDTO, UniversityInfo university, User user){
         this.writer = user;
@@ -46,6 +49,11 @@ public class Community {
         this.university = university;
         this.exType = communityCreateDTO.getPostExType();
         this.semester = communityCreateDTO.getPostSemester();
+    }
+
+    public void updateTitleAndContent(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 
 

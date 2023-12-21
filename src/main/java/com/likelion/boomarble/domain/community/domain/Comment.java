@@ -3,7 +3,6 @@ package com.likelion.boomarble.domain.community.domain;
 import com.likelion.boomarble.domain.community.dto.CommentRequestDTO;
 import com.likelion.boomarble.domain.user.domain.BaseTimeEntity;
 import com.likelion.boomarble.domain.user.domain.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;

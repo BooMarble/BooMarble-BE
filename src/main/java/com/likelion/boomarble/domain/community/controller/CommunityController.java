@@ -56,6 +56,26 @@ public class CommunityController  {
         return ResponseEntity.ok(communityDetailDTO);
     }
 
+    @PutMapping("/{postId}")
+    public ResponseEntity updateCommunity(
+            Authentication authentication,
+            @PathVariable long postId, @RequestBody CommunityCreateDTO communityCreateDTO){
+        long userId = getUserPk(authentication);
+        int result = communityService.updateCommunityPost(postId, communityCreateDTO, userId);
+        if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        return ResponseEntity.ok("게시글이 정상적으로 수정되었습니다. id: " + postId);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity deleteCommunity(
+            Authentication authentication, @PathVariable long postId){
+        long userId = getUserPk(authentication);
+        int result = communityService.deleteCommunityPost(postId, userId);
+        if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        else if (result == 404) return ResponseEntity.badRequest().body("해당 게시글 삭제 권한이 없습니다. id: " + postId);
+        return ResponseEntity.ok("게시글이 정상적으로 삭제되었습니다. id: " + postId);
+    }
+
     //comment
     @PostMapping("/{postId}/comments")
     public ResponseEntity createComment(
@@ -97,7 +117,7 @@ public class CommunityController  {
             @PathVariable long postId
     ){
         long userId = getUserPk(authentication);
-        int result = communityService.scrapReview(postId, userId);
+        int result = communityService.scrapCommunityPost(postId, userId);
         if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         else if (result == 409) return ResponseEntity.badRequest().body("이미 스크랩되었습니다. id: " + postId);
         return ResponseEntity.ok("스크랩 완료되었습니다. id: " + postId);
@@ -109,7 +129,7 @@ public class CommunityController  {
             @PathVariable long postId
     ){
         long userId = getUserPk(authentication);
-        int result = communityService.unscrapReview(postId, userId);
+        int result = communityService.unscrapCommunityPost(postId, userId);
         if (result == 400) return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         else if (result == 404) return ResponseEntity.badRequest().body("스크랩한 기록이 없습니다. id: " + postId);
         return ResponseEntity.ok("스크랩이 정상적으로 취소되었습니다. id: " + postId);
