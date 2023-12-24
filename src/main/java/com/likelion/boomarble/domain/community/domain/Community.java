@@ -60,5 +60,4 @@ public class Community {
     public void setCommunityTagList(List<String> communityTagList) {
         this.communityTagList = communityTagList;
     }
-
 }
