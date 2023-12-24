@@ -21,13 +21,13 @@ public class CommunityDetailDTO {
     private String content;
     private List<String> communityTagList;
 
-    public static CommunityDetailDTO from(Community community, List<String> communityTagList) {
+    public static CommunityDetailDTO from(Community community) {
 
         return CommunityDetailDTO.builder()
                 .communityWriter(community.getWriter())
                 .title(community.getTitle())
                 .content(community.getContent())
-                .communityTagList(communityTagList)
+                .communityTagList(community.getCommunityTagList())
                 .build();
     }
 }

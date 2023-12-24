@@ -38,7 +38,6 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityTagRepository communityTagRepository;
     private final UniversityInfoRepository universityInfoRepository;
     private final ScrapRepository scrapRepository;
-    private final CommentService commentService;
 
     @Override
     @Transactional
@@ -63,10 +62,9 @@ public class CommunityServiceImpl implements CommunityService {
         if(country != null) { tagList.add(0, country.getName()); }
         if(exType != null) { tagList.add(0, exType.getName()); }
         if(semester != null) { tagList.add(0, semester); }
-
+        community.setCommunityTagList(tagList);
         // 해시태그 추가
         for(String tag : tagList){
-
             Tag checkTag = tagRepository.findByName(tag);
             if (checkTag != null) {
                 checkTag.plusCount();
@@ -97,20 +95,7 @@ public class CommunityServiceImpl implements CommunityService {
     public CommunityDetailDTO getCommunityDetail(long postId) {
         Community community = communityRepository.findById(postId)
                 .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
-        List<String> tagList = getTagList(postId);
-        return CommunityDetailDTO.from(community, tagList);
-    }
-
-    @Transactional
-    public List<String> getTagList(long postId) {
-        Community community = communityRepository.findById(postId)
-                .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
-        List<CommunityTagMap> communityTagList = community.getCommunityTagList();
-        List<String> tagList = new ArrayList<>();
-        for(CommunityTagMap tag : communityTagList){
-            tagList.add(tag.getTag().getName().toString());
-        }
-        return tagList;
+        return CommunityDetailDTO.from(community);
     }
 
     @Override
