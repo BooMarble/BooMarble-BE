@@ -13,5 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CountryNameWithUniversitiesDTO {
     private String name;
+    private String englishName;
     private List<UniversityNameDTO> universities;
 }

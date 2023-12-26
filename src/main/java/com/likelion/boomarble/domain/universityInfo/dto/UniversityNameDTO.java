@@ -13,10 +13,14 @@ import lombok.NoArgsConstructor;
 public class UniversityNameDTO {
     private long id;
     private String name;
+    private String exType;
+    private String englishExType;
 
     public static UniversityNameDTO of(UniversityInfo universityInfo){
         return UniversityNameDTO.builder()
                 .id(universityInfo.getId())
-                .name(universityInfo.getName()).build();
+                .name(universityInfo.getName())
+                .exType(universityInfo.getExType().getName())
+                .englishExType(universityInfo.getExType().name()).build();
     }
 }

@@ -65,7 +65,7 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
                 ));
 
         List<CountryNameWithUniversitiesDTO> countriesDTO = groupedByCountry.entrySet().stream()
-                .map(entry -> new CountryNameWithUniversitiesDTO(entry.getKey().getName(), entry.getValue()))
+                .map(entry -> new CountryNameWithUniversitiesDTO(entry.getKey().getName(), entry.getKey().name(), entry.getValue()))
                 .collect(Collectors.toList());
 
         return new CountryListDTO(countriesDTO);
