@@ -9,5 +9,7 @@ import java.util.List;
 public interface CommentService {
     Comment createComment(Long postId, CommentRequestDTO commentRequestDTO);
     List<CommentResponseDTO> findCommentsByPostId(Long postId);
-
+    void update(long commentId, CommentRequestDTO commentRequestDTO);
+    void delete(long commentId);
+    Comment getDeletableAncestorComment(Comment comment);
 }

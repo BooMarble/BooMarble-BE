@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,16 +53,33 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByBoardId(postId);
     }
 
-//    @Transactional
-//    public List<CommentResponseDTO> getCommentsByPostId(Long postId) {
-//        List<Comment> commentsByPost = commentRepository.findAllByCommunity(postId);
-//        List<CommentResponseDTO> fullComments = new ArrayList<>();
-//        for (Comment comment: commentsByPost){
-//            if (comment.getParent() == null) {
-//                new CommentResponseDTO(comment.getContent(), comment.getWriter())
-//                fullComments.add(parentComment);
-//            }
-//        }
-//        return
-//    }
+    @Override
+    @Transactional
+    public void update(long commentId, CommentRequestDTO commentRequestDTO) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NotFoundException("해당 댓글을 찾을 수 없습니다. id: " + commentId));
+        comment.updateContent(commentRequestDTO.getContent());
+    }
+
+    @Override
+    @Transactional
+    public void delete(long commentId) {
+        Comment comment = commentRepository.findCommentByBIdWithParent(commentId)
+                .orElseThrow(() -> new NotFoundException("해당 댓글을 찾을 수 없습니다. id: " + commentId));
+        if(comment.getChildren().size() != 0){  //자식이 있으면 상태만 변경
+            comment.changeIsDeleted(true);
+        } else {                                //삭제 가능한 조상 댓글을 찾아서 삭제
+            commentRepository.delete(getDeletableAncestorComment(comment));
+        }
+    }
+
+    @Override
+    @Transactional
+    public Comment getDeletableAncestorComment(Comment comment) {
+        Comment parent = comment.getParent();   //현재 댓글의 부모를 구함
+        if (parent != null && parent.getChildren().size() == 1 && parent.getIsDeleted())
+            //부모가 있고, 부모의 자식이 1개(지금 삭제하는 댓글)이고, 부모의 삭제 상태가 TRUE인 댓글이라면 재귀
+            return getDeletableAncestorComment(parent);
+        return comment;
+    }
 }
