@@ -11,6 +11,7 @@ import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRep
 import com.likelion.boomarble.domain.universityInfo.specification.UniversityInfoSpecifications;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
+import com.likelion.boomarble.global.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,7 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     private final UniversityInfoRepository universityInfoRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
+    private final RedisService redisService;
 
     @Override
     @Transactional
@@ -50,6 +52,9 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     @Override
     @Transactional
     public UniversityInfoListDTO searchUniversityInfoList(String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            redisService.incrementSearchKeywordScore(keyword);
+        }
         List<UniversityInfo> universityInfoList = universityInfoRepository.findAllByNameContaining(keyword);
         return UniversityInfoListDTO.from(universityInfoList);
     }
