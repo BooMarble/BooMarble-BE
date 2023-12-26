@@ -1,7 +1,6 @@
 package com.likelion.boomarble.domain.community.dto;
 
 import com.likelion.boomarble.domain.community.domain.Community;
-import com.likelion.boomarble.domain.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,16 +12,15 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommunityDetailDTO {
-    private User communityWriter;
+public class CommunitySearchDTO {
+    private String writerNickname;
     private String title;
     private String content;
     private List<String> communityTagList;
 
-    public static CommunityDetailDTO from(Community community) {
-
-        return CommunityDetailDTO.builder()
-                .communityWriter(community.getWriter())
+    public static CommunitySearchDTO from(Community community) {
+        return CommunitySearchDTO.builder()
+                .writerNickname(community.getWriter().getNickname())
                 .title(community.getTitle())
                 .content(community.getContent())
                 .communityTagList(community.getCommunityTagList())

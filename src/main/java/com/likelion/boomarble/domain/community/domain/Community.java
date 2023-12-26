@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -31,12 +30,14 @@ public class Community {
     private String semester;
     private ExType exType;
     private Country country;
+    @ElementCollection
+    private List<String> communityTagList;
     @ManyToOne
     @JoinColumn(name = "university")
     private UniversityInfo university;
     @JsonIgnore
     @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<CommunityTagMap> communityTagList;
+    private List<CommunityTagMap> communityTagMapList;
     @JsonIgnore
     @OneToMany(mappedBy = "community", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Comment> commentList;
@@ -56,5 +57,7 @@ public class Community {
         this.content = content;
     }
 
-
+    public void setCommunityTagList(List<String> communityTagList) {
+        this.communityTagList = communityTagList;
+    }
 }
