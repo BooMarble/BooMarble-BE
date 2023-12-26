@@ -40,3 +40,6 @@ out/
 ### AWS ###
 application-aws.yml
 application-credentials.yml
+
+### Redis ###
+src/main/java/com/likelion/boomarble/global/config/RedisRepositoryConfig.java
