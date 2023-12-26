@@ -31,6 +31,12 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE' //S3
     implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0' //poi
     implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0' //poi
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis' //redis
+    implementation 'org.springframework.boot:spring-boot-starter-websocket' //websocket
+    implementation 'org.webjars:webjars-locator-core'
+    implementation 'org.webjars:sockjs-client:1.5.1'
+    implementation 'org.webjars:stomp-websocket:2.3.4'
+    implementation 'io.lettuce:lettuce-core'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
