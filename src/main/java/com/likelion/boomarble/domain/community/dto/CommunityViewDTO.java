@@ -1,7 +1,6 @@
 package com.likelion.boomarble.domain.community.dto;
 
 import com.likelion.boomarble.domain.community.domain.Community;
-import com.likelion.boomarble.domain.model.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 public class CommunityViewDTO {
     private String communityTitle;
-    private List<CommunityTagMap> communityTagList;
+    private List<String> communityTagList;
 
     public static CommunityViewDTO of (Community community) {
         return CommunityViewDTO.builder()

@@ -76,6 +76,13 @@ public class CommunityController  {
         return ResponseEntity.ok("게시글이 정상적으로 삭제되었습니다. id: " + postId);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity searchCommunityPost(
+            @RequestParam(value="keyword") String keyword){
+        List<CommunitySearchDTO> searchDTOList = communityService.getCommunitySearch(keyword);
+        return ResponseEntity.ok(searchDTOList);
+    }
+
     //comment
     @PostMapping("/{postId}/comments")
     public ResponseEntity createComment(

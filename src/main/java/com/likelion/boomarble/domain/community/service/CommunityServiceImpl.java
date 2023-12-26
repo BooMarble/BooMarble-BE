@@ -23,10 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +35,6 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityTagRepository communityTagRepository;
     private final UniversityInfoRepository universityInfoRepository;
     private final ScrapRepository scrapRepository;
-    private final CommentService commentService;
 
     @Override
     @Transactional
@@ -63,10 +59,9 @@ public class CommunityServiceImpl implements CommunityService {
         if(country != null) { tagList.add(0, country.getName()); }
         if(exType != null) { tagList.add(0, exType.getName()); }
         if(semester != null) { tagList.add(0, semester); }
-
+        community.setCommunityTagList(tagList);
         // 해시태그 추가
         for(String tag : tagList){
-
             Tag checkTag = tagRepository.findByName(tag);
             if (checkTag != null) {
                 checkTag.plusCount();
@@ -97,20 +92,7 @@ public class CommunityServiceImpl implements CommunityService {
     public CommunityDetailDTO getCommunityDetail(long postId) {
         Community community = communityRepository.findById(postId)
                 .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
-        List<String> tagList = getTagList(postId);
-        return CommunityDetailDTO.from(community, tagList);
-    }
-
-    @Transactional
-    public List<String> getTagList(long postId) {
-        Community community = communityRepository.findById(postId)
-                .orElseThrow(() -> new CommunityNotFoundException("해당 커뮤니티 글이 없습니다."));
-        List<CommunityTagMap> communityTagList = community.getCommunityTagList();
-        List<String> tagList = new ArrayList<>();
-        for(CommunityTagMap tag : communityTagList){
-            tagList.add(tag.getTag().getName().toString());
-        }
-        return tagList;
+        return CommunityDetailDTO.from(community);
     }
 
     @Override
@@ -139,6 +121,33 @@ public class CommunityServiceImpl implements CommunityService {
             if (communityRepository.findByIdAndWriter(postId, user).isEmpty()) return 200;
             else return 400;
         } else return 404;
+    }
+
+    @Override
+    @Transactional
+    public List<CommunitySearchDTO> getCommunitySearch(String keyword) {
+        List<Community> posts = communityRepository.findByTitleContaining(keyword);
+        List<Community> tempPosts = communityRepository.findByContentContaining(keyword);
+        tempPosts.addAll(communityRepository.findByCommunityTagListContaining(keyword));
+        for (Community post : tempPosts){
+            if (posts.contains(post)) continue;
+            else posts.add(post);
+        }
+        List<CommunitySearchDTO> searchDTOList = new ArrayList<>();
+        if(posts.isEmpty()) return searchDTOList;
+        for (Community post : posts) {
+            searchDTOList.add(this.convertEntityToDto(post));
+        }
+        return searchDTOList;
+    }
+
+    private CommunitySearchDTO convertEntityToDto(Community post){
+        return CommunitySearchDTO.builder()
+                .writerNickname(post.getWriter().getNickname())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .communityTagList(post.getCommunityTagList())
+                .build();
     }
 
     // Scrap
