@@ -30,33 +30,33 @@ public class Review {
     private String semester;
     private String dormitoryName;
     private String dormitoryDesc;
-    @Column(length = 2048)
+    @Lob
     private String admission;
-    @Column(length = 2048)
+    @Lob
     private String fee;
-    @Column(length = 2048)
+    @Lob
     private String preparationEtc;
-    @Column(length = 2048)
+    @Lob
     private String transportation;
-    @Column(length = 2048)
+    @Lob
     private String enrollment;
-    @Column(length = 2048)
+    @Lob
     private String program;
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Subjects> subjects;
-    @Column(length = 2048)
+    @Lob
     private String activities;
     private String totalCost;
     private String airfare;
     private String insurance;
-    @Column(length = 2048)
+    @Lob
     private String costEtc;
-    @Column(length = 2048)
+    @Lob
     private String etc;
-    @Column(length = 2048)
+    @Lob
     private String acceptedGrade;
-    @Column(length = 2048)
+    @Lob
     private String message;
     //    private ExType exType;
 //    private Country country;
