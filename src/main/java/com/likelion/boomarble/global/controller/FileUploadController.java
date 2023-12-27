@@ -1,4 +1,4 @@
-package com.likelion.boomarble.global.config;
+package com.likelion.boomarble.global.controller;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
