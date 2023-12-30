@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatRoomDTO {
+public class CreateChatRoomDTO {
     private Long anotherUserId;
 }
