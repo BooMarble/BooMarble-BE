@@ -13,7 +13,7 @@ public class UnreadMessageCount {
 
     public UnreadMessageCount(ChatMessageRequestDTO roomMessage) {
         this.type = "UNREAD";
-        this.otherUserId = roomMessage.getOtherUserIds();
+        this.otherUserId = roomMessage.getOtherUserId();
         this.roomId = roomMessage.getRoomId();
         this.unreadCount = roomMessage.getCount();
     }
