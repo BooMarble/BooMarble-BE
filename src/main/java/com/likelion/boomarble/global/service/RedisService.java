@@ -27,4 +27,3 @@ public class RedisService {
         return typedTuples.stream().map(SearchRankResponseDTO::convertToResponseRankingDto).collect(Collectors.toList());
     }
 }
-

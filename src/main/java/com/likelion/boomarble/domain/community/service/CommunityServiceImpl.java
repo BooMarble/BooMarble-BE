@@ -17,6 +17,7 @@ import com.likelion.boomarble.domain.universityInfo.domain.UniversityInfo;
 import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRepository;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
+import com.likelion.boomarble.global.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,6 +36,7 @@ public class CommunityServiceImpl implements CommunityService {
     private final CommunityTagRepository communityTagRepository;
     private final UniversityInfoRepository universityInfoRepository;
     private final ScrapRepository scrapRepository;
+    private final RedisService redisService;
 
     @Override
     @Transactional
@@ -126,6 +128,9 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     @Transactional
     public List<CommunitySearchDTO> getCommunitySearch(String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            redisService.incrementSearchKeywordScore(keyword);
+        }
         List<Community> posts = communityRepository.findByTitleContaining(keyword);
         List<Community> tempPosts = communityRepository.findByContentContaining(keyword);
         tempPosts.addAll(communityRepository.findByCommunityTagListContaining(keyword));
