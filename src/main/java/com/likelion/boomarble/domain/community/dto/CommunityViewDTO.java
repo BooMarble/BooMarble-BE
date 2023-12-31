@@ -11,11 +11,13 @@ import java.util.List;
 @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor
 public class CommunityViewDTO {
+    private long communityId;
     private String communityTitle;
     private List<String> communityTagList;
 
     public static CommunityViewDTO of (Community community) {
         return CommunityViewDTO.builder()
+                .communityId(community.getId())
                 .communityTitle(community.getTitle())
                 .communityTagList(community.getCommunityTagList()).build();
     }

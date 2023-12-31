@@ -6,10 +6,7 @@ import com.likelion.boomarble.domain.user.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,29 +18,27 @@ public class PredictionController {
     // 영어권인지 비영어권이지 구별하기 위한 컨트롤러
     @PostMapping("")
     public ResponseEntity determineRegion(Authentication authentication, @RequestBody BasicInformationDTO basicInformationDTO){
-        String region = predictionService.determineRegionByCountry(basicInformationDTO);
-        return ResponseEntity.ok().body(region);
+        return ResponseEntity.ok().body(predictionService.determineRegionByCountry(basicInformationDTO));
     }
 
     @PostMapping("/japanese")
     public ResponseEntity applyJapanesePrediction(Authentication authentication, @RequestBody PredictionJapaneseInfoDTO predictionJapaneseInfoDTO){
-        long userId = getUserPk(authentication);
-        PredictionResultDTO predictionResultDTO = predictionService.applyJapanesePrediction(userId, predictionJapaneseInfoDTO);
-        return ResponseEntity.ok(predictionResultDTO);
+        return ResponseEntity.ok(predictionService.applyJapanesePrediction(getUserPk(authentication), predictionJapaneseInfoDTO));
     }
 
     @PostMapping("/chinese")
     public ResponseEntity applyChinesePrediction(Authentication authentication, @RequestBody PredictionChineseInfoDTO predictionChineseInfoDTO){
-        long userId = getUserPk(authentication);
-        PredictionResultDTO predictionResultDTO = predictionService.applyChinesePrediction(userId, predictionChineseInfoDTO);
-        return ResponseEntity.ok(predictionResultDTO);
+        return ResponseEntity.ok(predictionService.applyChinesePrediction(getUserPk(authentication), predictionChineseInfoDTO));
     }
 
     @PostMapping("/english")
     public ResponseEntity applyEnglishPrediction(Authentication authentication, @RequestBody PredictionEnglishInfoDTO predictionEnglishInfoDTO){
-        long userId = getUserPk(authentication);
-        PredictionResultDTO predictionResultDTO = predictionService.applyEnglishPrediction(userId, predictionEnglishInfoDTO);
-        return ResponseEntity.ok(predictionResultDTO);
+        return ResponseEntity.ok(predictionService.applyEnglishPrediction(getUserPk(authentication), predictionEnglishInfoDTO));
+    }
+
+    @GetMapping("/{predictionId}")
+    public ResponseEntity getPredictionDetail(Authentication authentication, @PathVariable long predictionId){
+        return ResponseEntity.ok(predictionService.getPredictionDetail(getUserPk(authentication), predictionId));
     }
 
     public long getUserPk(Authentication authentication){
