@@ -13,4 +13,6 @@ public interface PredictionService {
     PredictionResultDTO applyChinesePrediction(long userId, PredictionChineseInfoDTO predictionChineseInfoDTO);
 
     PredictionResultDTO applyEnglishPrediction(long userId, PredictionEnglishInfoDTO predictionEnglishInfoDTO);
+
+    PredictionResultDTO getPredictionDetail(long userPk, long predictionId);
 }
