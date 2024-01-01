@@ -7,6 +7,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -29,8 +30,11 @@ import java.util.Date;
 public class ChatbotController {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private static String secretKey = "bWx3dVBPdFpPWkRPYUVNZlNvQ0N0SkN3dWRyZ0p4aFo=";
-    private static String apiUrl = "https://qbr4o969qe.apigw.ntruss.com/custom/v1/12836/76f0bb7c6258702c909235960195d0e1fede61690c92d59b17a41afa07448ad5";
+
+    @Value("${chatbot.secret-key}")
+    private String secretKey;
+    @Value("${chatbot.api-url}")
+    private String apiUrl;
 
     @MessageMapping("/sendMessage")
     @SendTo("/topic/public")
