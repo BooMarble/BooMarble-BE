@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -99,5 +100,28 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
             if (likeRepository.findByUserAndUniversityInfo(user, universityInfo).isEmpty()) return 200;
             else return 400;
         } else return 404;
+    }
+    @Override
+    public List<String> searchCountries(String query) {
+        return Arrays.stream(Country.values())
+                .map(Country::getName)
+                .filter(name -> name.contains(query))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> searchUniversities(String query) {
+        return universityInfoRepository.findAllByNameContaining(query)
+                .stream()
+                .map(UniversityInfo::getName)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> searchExchangeTypes(String query) {
+        return Arrays.stream(ExType.values())
+                .map(ExType::getName)
+                .filter(name -> name.contains(query))
+                .collect(Collectors.toList());
     }
 }
