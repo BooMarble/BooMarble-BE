@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class UniversityInfoViewDTO {
+    private long universityId;
     private String universityName;
     private String universityCountry;
     private String universityType;
@@ -18,6 +19,7 @@ public class UniversityInfoViewDTO {
 
     public static UniversityInfoViewDTO of(UniversityInfo universityInfo){
         return UniversityInfoViewDTO.builder()
+                .universityId(universityInfo.getId())
                 .universityName(universityInfo.getName())
                 .universityCountry(universityInfo.getCountry().getName())
                 .universityType(universityInfo.getExType().getName())

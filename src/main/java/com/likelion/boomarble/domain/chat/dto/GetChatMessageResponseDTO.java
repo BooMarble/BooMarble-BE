@@ -29,6 +29,6 @@ public class GetChatMessageResponseDTO {
         this.nickname = request.getNickName();
         this.message = request.getMessage();
         this.isFile = request.getIsFile();
-        this.createdAt = LocalDateTime.now(); // 현재시간 저장
+        this.createdAt = LocalDateTime.now();
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PredictionRepository extends JpaRepository<Prediction, Long> {
@@ -34,4 +35,6 @@ public interface PredictionRepository extends JpaRepository<Prediction, Long> {
             nativeQuery = true)
     List<Object[]> findEnglishRankingsByUniversityId(@Param("universityId") long universityId, @Param("exType") int exType);
     Prediction findByUserAndExTypeAndUniversity(User user, ExType exType, UniversityInfo universityInfo);
+    List<Prediction> findAllByUser(User user);
+    Optional<Prediction> findByUserAndId(User user, long id);
 }
