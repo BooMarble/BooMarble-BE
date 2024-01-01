@@ -129,13 +129,7 @@ public class PredictionServiceImpl implements PredictionService {
                 .japanesePrediction(japanesePrediction).build();
         predictionRepository.save(prediction);
         // 모의지원한 점수가 해당 대학 자격조건에 맞는지 확인
-        List<String> precautions = new ArrayList<>();
-        float universityGrade = university.getGradeQ();
-        String universityJapaneseQ = university.getJapaneseQ().getJapanese();
-        if(universityGrade > predictionJapaneseInfoDTO.getGrade()) precautions.add("학점이 충족되지 않았습니다.");
-        if(universityJapaneseQ != null){
-            if(universityJapaneseQ.compareTo(level)<0) precautions.add("어학성적이 충족되지 않았습니다.");
-        }
+        List<String> precautions = getJapanesePrecautions(university, predictionJapaneseInfoDTO.getGrade(), level);
         List<Object[]> results = predictionRepository.findJapaneseRankingsByUniversityId(universityId, exType.ordinal());
         return getSurroundingPredictions(userId, results, precautions);
     }
@@ -146,7 +140,16 @@ public class PredictionServiceImpl implements PredictionService {
     private double convertJapaneseScore(String level, int score){
         return score + JLPT_INCREMENTS.getOrDefault(level, 0);
     }
-
+    private List<String> getJapanesePrecautions(UniversityInfo university, double grade, String level){
+        List<String> precautions = new ArrayList<>();
+        float universityGrade = university.getGradeQ();
+        if(universityGrade > grade) precautions.add("학점이 충족되지 않았습니다.");
+        String universityJapaneseQ = university.getJapaneseQ().getJapanese();
+        if(universityJapaneseQ != null){
+            if(universityJapaneseQ.compareTo(level)<0) precautions.add("어학성적이 충족되지 않았습니다.");
+        }
+        return precautions;
+    }
     /* ##################### 중국 모의지원 관련 ##################### */
     @Override
     @Transactional
@@ -188,9 +191,7 @@ public class PredictionServiceImpl implements PredictionService {
                 .chinesePrediction(chinesePrediction).build();
         predictionRepository.save(prediction);
         // 모의지원한 점수가 해당 대학 자격조건에 맞는지 확인
-        List<String> precautions = new ArrayList<>();
-        float universityGrade = university.getGradeQ();
-        if(universityGrade > predictionChineseInfoDTO.getGrade()) precautions.add("학점이 충족되지 않았습니다.");
+        List<String> precautions = getChinesePrecautions(university, predictionChineseInfoDTO.getGrade());
         List<Object[]> results = predictionRepository.findChineseRankingsByUniversityId(universityId, exType.ordinal(), chineseType.ordinal());
         return getSurroundingPredictions(userId, results, precautions);
     }
@@ -201,6 +202,12 @@ public class PredictionServiceImpl implements PredictionService {
     private double convertChineseScore(String testType, String level, int score){
         if(testType.equals("TOCFL")) return TOCFL_SCORES.getOrDefault(level, 990);
         else return score + HSK_INCREMENT.getOrDefault(level, 0);
+    }
+    private List<String> getChinesePrecautions(UniversityInfo university, double grade){
+        List<String> precautions = new ArrayList<>();
+        float universityGrade = university.getGradeQ();
+        if(universityGrade > grade) precautions.add("학점이 충족되지 않았습니다.");
+        return precautions;
     }
 
     /* ##################### 영어 모의지원 관련 ##################### */
@@ -236,13 +243,18 @@ public class PredictionServiceImpl implements PredictionService {
                 .englishPrediction(englishPrediction).build();
         predictionRepository.save(prediction);
         // 모의지원한 점수가 해당 대학 자격조건에 맞는지 확인
-        List<String> precautions = new ArrayList<>();
-        float universityGrade = university.getGradeQ();
-        if(universityGrade > predictionEnglishInfoDTO.getGrade()) precautions.add("학점이 충족되지 않았습니다.");
-        if(!satisfyEnglishScore(university, testType, score)) precautions.add("어학 성적이 충족되지 않았습니다.");
+        List<String> precautions = getEnglishPrecautions(university, predictionEnglishInfoDTO.getGrade(), testType, score);
         List<Object[]> results = predictionRepository.findEnglishRankingsByUniversityId(universityId, exType.ordinal());
         return getSurroundingPredictions(userId, results, precautions);
     }
+    private List<String> getEnglishPrecautions(UniversityInfo university, double grade, String testType, double score){
+        List<String> precautions = new ArrayList<>();
+        float universityGrade = university.getGradeQ();
+        if(universityGrade > grade) precautions.add("학점이 충족되지 않았습니다.");
+        if(!satisfyEnglishScore(university, testType, score)) precautions.add("어학 성적이 충족되지 않았습니다.");
+        return precautions;
+    }
+
     private boolean satisfyEnglishScore(UniversityInfo university, String testType, double score){
         if(testType.equals("IELTS")){
             if(university.getEnglishQ().getIeltsQ() == -1) throw new InvalidScoreException("IELTS는 필수 어학 성적이 아닙니다.");
@@ -259,6 +271,33 @@ public class PredictionServiceImpl implements PredictionService {
         if(testType.equals("IELTS")) return IELTS_TO_IBT.floorEntry(score).getValue();
         else if(testType.equals("TOEFL")) return TOEFL_TO_IBT.floorEntry((int)score).getValue();
         else return score;
+    }
+
+    @Override
+    @Transactional
+    public PredictionResultDTO getPredictionDetail(long userId, long predictionId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
+        Prediction prediction = predictionRepository.findByUserAndId(user, predictionId)
+                .orElseThrow(() -> new PredictionNotFoundException("해당 예측 결과를 찾을 수 없습니다."));
+        return convertToPredictionResultDTO(userId, prediction);
+    }
+    private PredictionResultDTO convertToPredictionResultDTO(long userId, Prediction prediction) {
+        List<String> precautions;
+        List<Object[]> results;
+        UniversityInfo university = prediction.getUniversity();
+        ExType exType = prediction.getExType();
+        if(prediction.getJapanesePrediction()!=null) {
+            precautions = getJapanesePrecautions(university, prediction.getGrade(), prediction.getJapanesePrediction().getLevel());
+            results = predictionRepository.findJapaneseRankingsByUniversityId(university.getId(), exType.ordinal());
+        } else if(prediction.getChinesePrediction()!=null){
+            precautions = getChinesePrecautions(prediction.getUniversity(), prediction.getGrade());
+            results = predictionRepository.findChineseRankingsByUniversityId(university.getId(), exType.ordinal(), prediction.getChinesePrediction().getChineseType().ordinal());
+        }else{
+            precautions = getEnglishPrecautions(university, prediction.getGrade(), prediction.getEnglishPrediction().getTestType(), prediction.getEnglishPrediction().getScore());
+            results = predictionRepository.findEnglishRankingsByUniversityId(university.getId(), exType.ordinal());
+        }
+            return getSurroundingPredictions(userId, results, precautions);
     }
 
     // 같은 대학교에 지원한 사람들끼리 순위를 매겨서 자신의 순위와 자신보다 앞에 두 사람과 뒤에 두 사람 점수 같이 반환
