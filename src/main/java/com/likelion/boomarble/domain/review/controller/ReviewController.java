@@ -48,64 +48,73 @@ public class ReviewController {
 
     @GetMapping("/{universityInfoId}/accGrade")
     public ResponseEntity getAccGradeList(Authentication authentication,
-                                          @PathVariable long universityInfoId){
-        ReviewAccGradeListDTO reviewAccGradeListDTO = reviewService.getReviewAccGrade(authentication, universityInfoId);
+                                          @PathVariable long universityInfoId,
+                                          @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewAccGradeListDTO reviewAccGradeListDTO = reviewService.getReviewAccGrade(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewAccGradeListDTO);
     }
 
     @GetMapping("/{universityInfoId}/activity")
     public ResponseEntity getActivityList(Authentication authentication,
-                                          @PathVariable long universityInfoId){
-        ReviewActivityListDTO reviewActivityListDTO = reviewService.getReviewActivity(authentication, universityInfoId);
+                                          @PathVariable long universityInfoId,
+                                          @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewActivityListDTO reviewActivityListDTO = reviewService.getReviewActivity(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewActivityListDTO);
     }
 
     @GetMapping("/{universityInfoId}/cost")
     public ResponseEntity getCostList(Authentication authentication,
-                                      @PathVariable long universityInfoId){
-        ReviewCostListDTO reviewCostListDTO = reviewService.getReviewCost(authentication, universityInfoId);
+                                      @PathVariable long universityInfoId,
+                                      @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewCostListDTO reviewCostListDTO = reviewService.getReviewCost(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewCostListDTO);
     }
 
     @GetMapping("/{universityInfoId}/dorm")
     public ResponseEntity getDormList(Authentication authentication,
-                                      @PathVariable long universityInfoId){
-        ReviewDormListDTO reviewDormListDTO = reviewService.getReviewDorm(authentication, universityInfoId);
+                                      @PathVariable long universityInfoId,
+                                      @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewDormListDTO reviewDormListDTO = reviewService.getReviewDorm(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewDormListDTO);
     }
 
     @GetMapping("/{universityInfoId}/etc")
     public ResponseEntity getEtcList(Authentication authentication,
-                                     @PathVariable long universityInfoId){
-        ReviewEtcListDTO reviewEtcListDTO = reviewService.getReviewEtc(authentication, universityInfoId);
+                                     @PathVariable long universityInfoId,
+                                     @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewEtcListDTO reviewEtcListDTO = reviewService.getReviewEtc(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewEtcListDTO);
     }
 
     @GetMapping("/{universityInfoId}/message")
     public ResponseEntity getMessageList(Authentication authentication,
-                                         @PathVariable long universityInfoId){
-        ReviewMessageListDTO reviewMessageListDTO = reviewService.getReviewMessage(authentication, universityInfoId);
+                                         @PathVariable long universityInfoId,
+                                         @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewMessageListDTO reviewMessageListDTO = reviewService.getReviewMessage(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewMessageListDTO);
     }
 
     @GetMapping("/{universityInfoId}/preparation")
     public ResponseEntity getPrepList(Authentication authentication,
-                                      @PathVariable long universityInfoId){
-        ReviewPrepListDTO reviewPrepListDTO = reviewService.getReviewPrep(authentication, universityInfoId);
+                                      @PathVariable long universityInfoId,
+                                      @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewPrepListDTO reviewPrepListDTO = reviewService.getReviewPrep(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewPrepListDTO);
     }
 
     @GetMapping("/{universityInfoId}/subjects")
     public ResponseEntity getSubjectList(Authentication authentication,
-                                         @PathVariable long universityInfoId){
-        ReviewSubjectsListDTO reviewSubjectsListDTO = reviewService.getReviewSubjects(authentication, universityInfoId);
+                                         @PathVariable long universityInfoId,
+                                         @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewSubjectsListDTO reviewSubjectsListDTO = reviewService.getReviewSubjects(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewSubjectsListDTO);
     }
 
     @GetMapping("/{universityInfoId}/univInfo")
     public ResponseEntity getUnivInfoList(Authentication authentication,
-                                          @PathVariable long universityInfoId){
-        ReviewUnivInfoListDTO reviewUnivInfoListDTO = reviewService.getReviewUnivInfo(authentication, universityInfoId);
+                                          @PathVariable long universityInfoId,
+                                          @RequestParam(required = false, defaultValue = "modifiedAt", value = "orderBy") String orderBy){
+        ReviewUnivInfoListDTO reviewUnivInfoListDTO = reviewService.getReviewUnivInfo(authentication, universityInfoId, orderBy);
         return ResponseEntity.ok(reviewUnivInfoListDTO);
     }
 

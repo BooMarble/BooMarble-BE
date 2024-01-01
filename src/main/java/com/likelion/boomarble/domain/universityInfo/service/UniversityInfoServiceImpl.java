@@ -11,12 +11,14 @@ import com.likelion.boomarble.domain.universityInfo.repository.UniversityInfoRep
 import com.likelion.boomarble.domain.universityInfo.specification.UniversityInfoSpecifications;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
+import com.likelion.boomarble.global.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +31,7 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     private final UniversityInfoRepository universityInfoRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
+    private final RedisService redisService;
 
     @Override
     @Transactional
@@ -50,6 +53,9 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
     @Override
     @Transactional
     public UniversityInfoListDTO searchUniversityInfoList(String keyword) {
+        if (keyword != null && !keyword.isEmpty()) {
+            redisService.incrementSearchKeywordScore(keyword);
+        }
         List<UniversityInfo> universityInfoList = universityInfoRepository.findAllByNameContaining(keyword);
         return UniversityInfoListDTO.from(universityInfoList);
     }
@@ -94,5 +100,28 @@ public class UniversityInfoServiceImpl implements UniversityInfoService{
             if (likeRepository.findByUserAndUniversityInfo(user, universityInfo).isEmpty()) return 200;
             else return 400;
         } else return 404;
+    }
+    @Override
+    public List<String> searchCountries(String query) {
+        return Arrays.stream(Country.values())
+                .map(Country::getName)
+                .filter(name -> name.contains(query))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> searchUniversities(String query) {
+        return universityInfoRepository.findAllByNameContaining(query)
+                .stream()
+                .map(UniversityInfo::getName)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> searchExchangeTypes(String query) {
+        return Arrays.stream(ExType.values())
+                .map(ExType::getName)
+                .filter(name -> name.contains(query))
+                .collect(Collectors.toList());
     }
 }
