@@ -16,20 +16,20 @@ import java.util.Optional;
 @Repository
 public interface PredictionRepository extends JpaRepository<Prediction, Long> {
     @Query(value = "SELECT jp.converted_score, ROW_NUMBER() OVER (ORDER BY jp.converted_score DESC) as rankNum, p.user as userId " +
-            "FROM Prediction p " +
+            "FROM prediction p " +
             "LEFT JOIN japanese_prediction jp ON p.japanese_prediction_id = jp.id " +
             "WHERE p.university = :universityId AND p.ex_type = :exType",
             nativeQuery = true)
     List<Object[]> findJapaneseRankingsByUniversityId(@Param("universityId") long universityId, @Param("exType") int exType);
 
     @Query(value = "SELECT cp.converted_score, ROW_NUMBER() OVER (ORDER BY cp.converted_score DESC) as rankNum, p.user as userId " +
-            "FROM Prediction p " +
+            "FROM prediction p " +
             "LEFT JOIN chinese_prediction cp ON p.chinese_prediction_id = cp.id " +
             "WHERE p.university = :universityId AND p.ex_type = :exType AND cp.chinese_type = :type",
             nativeQuery = true)
     List<Object[]> findChineseRankingsByUniversityId(@Param("universityId") long universityId, @Param("exType") int exType, @Param("type") int chineseType);
     @Query(value = "SELECT ep.converted_score, ROW_NUMBER() OVER (ORDER BY ep.converted_score DESC) as rankNum, p.user as userId " +
-            "FROM Prediction p " +
+            "FROM prediction p " +
             "LEFT JOIN english_prediction ep ON p.english_prediction_id = ep.id " +
             "WHERE p.university = :universityId AND p.ex_type = :exType",
             nativeQuery = true)
