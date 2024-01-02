@@ -12,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 @Configuration
 @RequiredArgsConstructor
@@ -60,9 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/h2/**"
     };
 
-    //정적인 파일 요청에 대해 무시
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(AUTH_WHITELIST);
+        web
+                .ignoring().antMatchers(AUTH_WHITELIST)
+                .and()
+                .httpFirewall(defaultHttpFirewall());
+    }
+    @Bean
+    public HttpFirewall defaultHttpFirewall() {
+        return new DefaultHttpFirewall();
     }
 }
