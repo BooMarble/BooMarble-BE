@@ -1,12 +1,13 @@
 package com.likelion.boomarble.global.error;
+
 import com.likelion.boomarble.domain.prediction.exception.AlreadyApplyPredictionException;
 import com.likelion.boomarble.domain.prediction.exception.InvalidScoreException;
 import com.likelion.boomarble.domain.prediction.exception.NoMoreAvailablePredictionException;
 import com.likelion.boomarble.domain.prediction.exception.NotAvailableRecommendationLetterException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
