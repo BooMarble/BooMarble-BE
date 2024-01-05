@@ -15,5 +15,6 @@ public class ReviewCommonDTO {
 
     private User writer;
     private boolean yesWriter;
+    private long reviewId;
 
 }

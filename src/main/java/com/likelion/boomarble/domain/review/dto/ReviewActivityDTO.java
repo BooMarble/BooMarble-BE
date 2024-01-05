@@ -17,6 +17,7 @@ public class ReviewActivityDTO extends ReviewCommonDTO {
                 .activities(review.getActivities())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 

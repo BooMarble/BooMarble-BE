@@ -23,6 +23,7 @@ public class ReviewCostDTO extends ReviewCommonDTO {
                 .costEtc(review.getCostEtc())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 
