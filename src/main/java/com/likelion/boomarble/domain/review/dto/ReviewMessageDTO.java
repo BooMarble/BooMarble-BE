@@ -17,6 +17,7 @@ public class ReviewMessageDTO extends ReviewCommonDTO {
                 .message(review.getMessage())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 

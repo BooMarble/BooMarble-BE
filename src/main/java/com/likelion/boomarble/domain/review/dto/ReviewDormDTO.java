@@ -19,6 +19,7 @@ public class ReviewDormDTO extends ReviewCommonDTO{
                 .dormitoryDesc(review.getDormitoryDesc())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 
