@@ -1,12 +1,13 @@
 package com.likelion.boomarble.domain.prediction.service;
 
+import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.prediction.dto.*;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface PredictionService {
 
-    String determineRegionByCountry(BasicInformationDTO basicInformationDTO);
+    String determineRegionByCountry(Country country);
 
     PredictionResultDTO applyJapanesePrediction(long userId, PredictionJapaneseInfoDTO predictionJapaneseInfoDTO);
 
