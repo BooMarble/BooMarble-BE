@@ -17,6 +17,7 @@ public class ReviewEtcDTO extends ReviewCommonDTO {
                 .etc(review.getEtc())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 

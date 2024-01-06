@@ -24,6 +24,7 @@ public class ReviewUnivInfoDTO extends ReviewCommonDTO{
                 .program(review.getProgram())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 

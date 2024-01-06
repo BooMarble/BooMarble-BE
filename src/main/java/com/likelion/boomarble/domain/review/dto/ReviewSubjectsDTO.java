@@ -20,6 +20,7 @@ public class ReviewSubjectsDTO extends ReviewCommonDTO {
                 .subjects(review.getSubjects())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 

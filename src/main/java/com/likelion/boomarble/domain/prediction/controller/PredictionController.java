@@ -1,6 +1,6 @@
 package com.likelion.boomarble.domain.prediction.controller;
 
-import com.likelion.boomarble.domain.prediction.dto.BasicInformationDTO;
+import com.likelion.boomarble.domain.model.Country;
 import com.likelion.boomarble.domain.prediction.dto.PredictionChineseInfoDTO;
 import com.likelion.boomarble.domain.prediction.dto.PredictionEnglishInfoDTO;
 import com.likelion.boomarble.domain.prediction.dto.PredictionJapaneseInfoDTO;
@@ -20,8 +20,8 @@ public class PredictionController {
 
     // 영어권인지 비영어권이지 구별하기 위한 컨트롤러
     @GetMapping("")
-    public ResponseEntity determineRegion(Authentication authentication, @RequestBody BasicInformationDTO basicInformationDTO){
-        return ResponseEntity.ok().body(predictionService.determineRegionByCountry(basicInformationDTO));
+    public ResponseEntity determineRegion(@RequestParam Country country){
+        return ResponseEntity.ok().body(predictionService.determineRegionByCountry(country));
     }
 
     @PostMapping("/japanese")

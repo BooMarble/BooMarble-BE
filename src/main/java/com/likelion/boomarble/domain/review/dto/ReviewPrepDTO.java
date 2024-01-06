@@ -21,6 +21,7 @@ public class ReviewPrepDTO extends ReviewCommonDTO {
                 .preparationEtc(review.getPreparationEtc())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 

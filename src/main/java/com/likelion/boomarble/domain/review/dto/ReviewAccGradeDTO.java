@@ -17,6 +17,7 @@ public class ReviewAccGradeDTO extends ReviewCommonDTO {
                 .acceptedGrade(review.getAcceptedGrade())
                 .writer(review.getWriter())
                 .yesWriter(review.getWriter().getId() == currentUserId)
+                .reviewId(review.getId())
                 .build();
     }
 
