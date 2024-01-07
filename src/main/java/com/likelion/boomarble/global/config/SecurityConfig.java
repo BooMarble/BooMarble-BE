@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/excel/read").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/join").permitAll()
+                .antMatchers("/login/oauth2/code/google").permitAll()
                 .antMatchers("/user").hasRole("USER")
                 .antMatchers("/ws/**").permitAll()
                 .anyRequest().authenticated()
