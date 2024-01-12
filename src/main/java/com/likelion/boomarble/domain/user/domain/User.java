@@ -38,8 +38,18 @@ public class User {
         this.role = Role.USER;
     }
 
+    @Builder
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void applyPrediction(){ this.predictionCnt-=1;}
