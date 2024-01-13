@@ -1,6 +1,7 @@
 package com.likelion.boomarble.domain.user.controller;
 
 import com.likelion.boomarble.domain.user.service.OAuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +15,9 @@ public class OAuthController {
     }
 
     @GetMapping("/code/{registraionId}")
-    public String googleLogin(@RequestParam String code, @PathVariable String registraionId) throws Exception {
+    public ResponseEntity<String> googleLogin(@RequestParam String code, @PathVariable String registraionId) throws Exception {
         String token = oAuthService.socialLogin(code, registraionId);
-        return token;
+        return ResponseEntity.ok(token);
 
     }
 }
