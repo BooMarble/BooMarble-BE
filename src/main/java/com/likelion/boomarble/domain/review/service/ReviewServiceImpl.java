@@ -49,6 +49,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    @Transactional
     public UniversityInfoViewDTO getUniversity(long universityInfoId) {
         UniversityInfo universityInfo = universityInfoRepository.findById(universityInfoId)
                 .orElseThrow(() -> new UniversityInfoNotFoundException("해당 대학교가 존재하지 않습니다."));
@@ -56,70 +57,134 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public ReviewAccGradeListDTO getReviewAccGrade(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewAccGradeListDTO getReviewAccGrade(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewAccGradeListDTO.from(reviews, currentUserId);
 
     }
 
     @Override
-    public ReviewActivityListDTO getReviewActivity(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewActivityListDTO getReviewActivity(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewActivityListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewCostListDTO getReviewCost(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewCostListDTO getReviewCost(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewCostListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewDormListDTO getReviewDorm(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewDormListDTO getReviewDorm(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewDormListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewEtcListDTO getReviewEtc(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewEtcListDTO getReviewEtc(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewEtcListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewMessageListDTO getReviewMessage(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewMessageListDTO getReviewMessage(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewMessageListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewPrepListDTO getReviewPrep(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewPrepListDTO getReviewPrep(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewPrepListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewSubjectsListDTO getReviewSubjects(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewSubjectsListDTO getReviewSubjects(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("modifiedAt")) {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
         return ReviewSubjectsListDTO.from(reviews, currentUserId);
     }
 
     @Override
-    public ReviewUnivInfoListDTO getReviewUnivInfo(Authentication authentication, long universityInfoId) {
+    @Transactional
+    public ReviewUnivInfoListDTO getReviewUnivInfo(Authentication authentication, long universityInfoId, String orderBy) {
         long currentUserId = getUserPk(authentication);
-        List<Review> reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        List<Review> reviews;
+        if (orderBy.equals("scrap")) {
+            reviews = reviewRepository.findByUniversityInfo_Id_OrderByScrapCount(universityInfoId);
+        }
+        else {
+            reviews = reviewRepository.findByUniversityInfo_Id(universityInfoId);
+        }
         return ReviewUnivInfoListDTO.from(reviews, currentUserId);
     }
 
     @Override
+    @Transactional
     public ReviewDetailDTO getReview(long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
@@ -127,6 +192,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    @Transactional
     public Review createReview(long userId, ReviewCreateDTO reviewCreateDTO) {
         Optional<User> user = userRepository.findById(userId);
         Review review = new Review(reviewCreateDTO, user.get());
@@ -134,6 +200,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    @Transactional
     public Review updateReview(Authentication authentication, long reviewId, ReviewCreateDTO reviewCreateDTO) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
@@ -146,6 +213,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    @Transactional
     public void deleteReview(Authentication authentication, long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("해당 리뷰가 존재하지 않습니다."));
@@ -157,6 +225,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    @Transactional
     public int scrapReview(long reviewId, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));
@@ -168,6 +237,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
+    @Transactional
     public int unscrapReview(long reviewId, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 유저가 존재하지 않습니다."));

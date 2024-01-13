@@ -6,7 +6,6 @@ import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoDetailDTO;
 import com.likelion.boomarble.domain.universityInfo.dto.UniversityInfoListDTO;
 import com.likelion.boomarble.domain.universityInfo.service.UniversityInfoService;
 import com.likelion.boomarble.domain.user.domain.CustomUserDetails;
-import com.likelion.boomarble.global.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

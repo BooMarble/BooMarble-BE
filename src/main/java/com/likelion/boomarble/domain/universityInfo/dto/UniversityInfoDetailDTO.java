@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UniversityInfoDetailDTO {
+    private long universityId;
     private String universityName;
     private String exType; // 교환유형(교환학생, 7+1)
     private String country;
@@ -33,6 +34,7 @@ public class UniversityInfoDetailDTO {
 
     public static UniversityInfoDetailDTO from(UniversityInfo universityInfo) {
         return UniversityInfoDetailDTO.builder()
+                .universityId(universityInfo.getId())
                 .universityName(universityInfo.getName())
                 .exType(universityInfo.getExType().getName())
                 .country(universityInfo.getCountry().getName())
@@ -40,8 +42,8 @@ public class UniversityInfoDetailDTO {
                 .recruitNum(universityInfo.getRecruitNum())
                 .gradeQ(universityInfo.getGradeQ())
                 .ibtQ(universityInfo.getEnglishQ() != null ? universityInfo.getEnglishQ().getIbtQ() : -1)
-                .toeflQ(universityInfo.getEnglishQ().getToefl())
-                .ielts(universityInfo.getEnglishQ().getIeltsQ())
+                .toeflQ(universityInfo.getEnglishQ() != null ? universityInfo.getEnglishQ().getToefl() : -1)
+                .ielts(universityInfo.getEnglishQ() != null ? universityInfo.getEnglishQ().getIeltsQ() : -1)
                 .japaneseQ(universityInfo.getJapaneseQ() != null ? universityInfo.getJapaneseQ().getJapanese() : "")
                 .chineseQ(universityInfo.getChineseQList())
                 .qualificationEtc(universityInfo.getQualificationEtc())
