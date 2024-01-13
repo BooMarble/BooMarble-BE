@@ -18,6 +18,5 @@ public class OAuthController {
     public ResponseEntity<String> googleLogin(@RequestParam String code, @PathVariable String registraionId) throws Exception {
         String token = oAuthService.socialLogin(code, registraionId);
         return ResponseEntity.ok(token);
-
     }
 }
