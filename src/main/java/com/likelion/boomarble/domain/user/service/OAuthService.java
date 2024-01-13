@@ -34,7 +34,7 @@ public class OAuthService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public void socialLogin(String code, String registrationId) throws Exception {
+    public String socialLogin(String code, String registrationId) throws Exception {
         String accessToken = getAccessToken(code, registrationId);
         JsonNode userResourceNode = getUserResource(accessToken, registrationId);
         System.out.println("userResourceNode = " + userResourceNode);
@@ -46,18 +46,27 @@ public class OAuthService {
         System.out.println("id = " + id);
         System.out.println("name = " + name);
 
+        String token;
         if (userRepository.findByEmail(email).isPresent()) {
             Map<String, String> userMap = new HashMap<>();
             userMap.put("email", email);
             userMap.put("name", name);
-            String token = login(userMap);
+            token = login(userMap);
             System.out.println("jwt token" + token);
         } else {
             UserSignUpRequestDto requestDto = new UserSignUpRequestDto();
             requestDto.setEmail(email);
             Long result = signUp(requestDto);
-            System.out.println("sign up" + result);
+            System.out.println("sign up success, id= " + result);
+
+            // signup 후 바로 로그인
+            Map<String, String> userMap = new HashMap<>();
+            userMap.put("email", email);
+            userMap.put("name", name);
+            token = login(userMap);
+            System.out.println("jwt token" + token);
         }
+        return token;
     }
 
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception {

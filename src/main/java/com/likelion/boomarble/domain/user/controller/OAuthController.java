@@ -14,7 +14,9 @@ public class OAuthController {
     }
 
     @GetMapping("/code/{registraionId}")
-    public void googleLogin(@RequestParam String code, @PathVariable String registraionId) throws Exception {
-        oAuthService.socialLogin(code, registraionId);
+    public String googleLogin(@RequestParam String code, @PathVariable String registraionId) throws Exception {
+        String token = oAuthService.socialLogin(code, registraionId);
+        return token;
+
     }
 }

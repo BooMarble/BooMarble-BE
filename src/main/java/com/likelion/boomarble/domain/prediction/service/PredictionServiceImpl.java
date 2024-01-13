@@ -76,7 +76,7 @@ public class PredictionServiceImpl implements PredictionService {
     @Transactional
     public String determineRegionByCountry(Country country) {
         if (country.equals(Country.JPN)) return "japanese";
-        if (country.equals(Country.CHN) || country.equals(Country.TWN)) return "chinese";
+        if (country.equals(Country.CHN) || country.equals(Country.TWN) || country.equals(Country.HKG)) return "chinese";
         else return "english";
     }
 
