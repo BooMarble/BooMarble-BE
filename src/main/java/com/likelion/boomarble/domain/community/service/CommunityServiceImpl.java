@@ -78,14 +78,16 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     @Transactional
-    public CommunityListDTO getCommunityList(Country country, String university, ExType type, String semester) {
-        Specification<Community> spec = Specification.where(CommunitySpecification.hasCountry(country))
-                .and(CommunitySpecification.hasUniversity(university))
-                .and(CommunitySpecification.hasType(type))
-                .and(CommunitySpecification.hasSemester(semester));
+    public CommunityListDTO getCommunityList(String criteria) {
+        if (criteria.equals("scrap")){
+            return CommunityListDTO.from(communityRepository.findAllByOrderByScrapCountDesc());
+        }
+        return CommunityListDTO.from(communityRepository.findAllByOrderByIdDesc());
+    }
 
-        List<Community> communities = communityRepository.findAll(spec);
-        return CommunityListDTO.from(communities);
+    @Override
+    public CommunityListDTO getHotPosts() {
+        return CommunityListDTO.from(communityRepository.findTop5ByOrderByScrapCountDesc());
     }
 
     @Override
@@ -164,6 +166,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .orElseThrow(() -> new CommunityNotFoundException("해당 게시글이 존재하지 않습니다."));
         if (scrapRepository.findByUserAndCommunity(user, post).isPresent()) return 409;
         if (scrapRepository.save(new Scrap(user, null, post, 1)) == null) return 400;
+        post.setScrapCount("Scrap");
         return 200;
     }
 
@@ -177,7 +180,10 @@ public class CommunityServiceImpl implements CommunityService {
         Optional<Scrap> scrap = scrapRepository.findByUserAndCommunity(user, post);
         if (scrap.isPresent()){
             scrapRepository.delete(scrap.get());
-            if (scrapRepository.findByUserAndCommunity(user,post).isEmpty()) return 200;
+            if (scrapRepository.findByUserAndCommunity(user,post).isEmpty()) {
+                post.setScrapCount("Unscrap");
+                return 200;
+            }
             else return 400;
         } else return 404;
     }

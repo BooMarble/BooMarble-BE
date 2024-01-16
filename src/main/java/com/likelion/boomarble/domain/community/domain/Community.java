@@ -30,6 +30,7 @@ public class Community {
     private String semester;
     private ExType exType;
     private Country country;
+    private int scrapCount;
     @ElementCollection
     private List<String> communityTagList;
     @ManyToOne
@@ -59,5 +60,10 @@ public class Community {
 
     public void setCommunityTagList(List<String> communityTagList) {
         this.communityTagList = communityTagList;
+    }
+
+    public void setScrapCount(String scrap){
+        if (scrap.equals("Scrap")) this.scrapCount += 1;
+        if (scrap.equals("Unscrap")) this.scrapCount -= 1;
     }
 }

@@ -9,7 +9,8 @@ import java.util.List;
 
 public interface CommunityService {
     Community createCommunityPost(Long userId, CommunityCreateDTO communityCreateDTO);
-    CommunityListDTO getCommunityList(Country country, String university, ExType type, String semester);
+    CommunityListDTO getCommunityList(String criteria);
+    CommunityListDTO getHotPosts();
     CommunityDetailDTO getCommunityDetail(long postId);
     int updateCommunityPost(long postId, CommunityCreateDTO communityCreateDTO, long userId);
     int deleteCommunityPost(long postId, long userId);
