@@ -54,8 +54,7 @@ public class CommunityServiceImpl implements CommunityService {
         ExType exType = community.getExType();
 
         // 태그에 학기, 대학, 나라, 교환유형 추가
-        ArrayList<String> tagList = new ArrayList(
-                Arrays.asList(communityCreateDTO.getPostTags().split(",")));
+        ArrayList<String> tagList = communityCreateDTO.getPostTags();
 
         if(university != null) { tagList.add(0, university.getName()); }
         if(country != null) { tagList.add(0, country.getName()); }

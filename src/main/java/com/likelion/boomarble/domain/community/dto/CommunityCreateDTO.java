@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,5 +26,5 @@ public class CommunityCreateDTO {
     private long postUniversityId;
     private ExType postExType;
     private String postSemester;
-    private String postTags;
+    private ArrayList<String> postTags;
 }
