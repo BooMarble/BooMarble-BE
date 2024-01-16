@@ -80,7 +80,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Transactional
     public CommunityListDTO getCommunityList(String criteria) {
         if (criteria.equals("scrap")){
-            return CommunityListDTO.from(communityRepository.findAllByOrderByScrapCountDesc());
+            return CommunityListDTO.from(communityRepository.findAllByOrderByScrapCountDescIdDesc());
         }
         return CommunityListDTO.from(communityRepository.findAllByOrderByIdDesc());
     }

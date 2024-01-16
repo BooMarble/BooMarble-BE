@@ -17,6 +17,6 @@ public interface CommunityRepository extends JpaRepository<Community, Long>, Jpa
     List<Community> findByCommunityTagListContaining(String keyword);
     List<Community> findAllByWriter(User user);
     List<Community> findAllByOrderByIdDesc();
-    List<Community> findAllByOrderByScrapCountDesc();
+    List<Community> findAllByOrderByScrapCountDescIdDesc();
     List<Community> findTop5ByOrderByScrapCountDesc();
 }

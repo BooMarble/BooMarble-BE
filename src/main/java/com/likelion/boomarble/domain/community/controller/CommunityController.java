@@ -40,22 +40,18 @@ public class CommunityController  {
     }
 
     @GetMapping("")
-    public ResponseEntity getCommunityList(
-            Authentication authentication,
-            @RequestParam(value = "orderby", required = false, defaultValue = "id") String orderCriteria) {
+    public ResponseEntity getCommunityList(@RequestParam(value = "orderby", required = false, defaultValue = "id") String orderCriteria) {
         CommunityListDTO communityListDTO = communityService.getCommunityList(orderCriteria);
         return ResponseEntity.ok(communityListDTO);
     }
 
     @GetMapping("/hotPosts")
-    public ResponseEntity getHotPosts(
-            Authentication authentication
-    ){
+    public ResponseEntity getHotPosts(){
         return ResponseEntity.ok(communityService.getHotPosts());
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity getCommunityDetail(Authentication authentication, @PathVariable long postId){
+    public ResponseEntity getCommunityDetail(@PathVariable long postId){
         CommunityDetailDTO communityDetailDTO = communityService.getCommunityDetail(postId);
         return ResponseEntity.ok(communityDetailDTO);
     }
