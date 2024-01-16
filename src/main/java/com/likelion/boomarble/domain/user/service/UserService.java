@@ -8,4 +8,5 @@ public interface UserService {
     //회원가입
     public Long signUp(UserSignUpRequestDto requestDto) throws Exception;
     public String login(Map<String, String> users);
+    public int updateInfo(long userId, UserSignUpRequestDto userSignUpRequestDto);
 }

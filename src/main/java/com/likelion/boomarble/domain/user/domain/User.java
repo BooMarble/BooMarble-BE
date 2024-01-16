@@ -52,6 +52,14 @@ public class User {
         this.name = name;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void applyPrediction(){ this.predictionCnt-=1;}
 
     @PrePersist
