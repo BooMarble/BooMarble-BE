@@ -40,18 +40,18 @@ public class CommunityController  {
     }
 
     @GetMapping("")
-    public ResponseEntity getCommunityList(
-            Authentication authentication,
-            @RequestParam(value = "country", required = false) Country country,
-            @RequestParam(value = "university", required = false) String university,
-            @RequestParam(value = "type", required = false) ExType type,
-            @RequestParam(value = "semester", required = false) String semester) {
-        CommunityListDTO communityListDTO = communityService.getCommunityList(country, university, type, semester);
+    public ResponseEntity getCommunityList(@RequestParam(value = "orderby", required = false, defaultValue = "id") String orderCriteria) {
+        CommunityListDTO communityListDTO = communityService.getCommunityList(orderCriteria);
         return ResponseEntity.ok(communityListDTO);
     }
 
+    @GetMapping("/hotPosts")
+    public ResponseEntity getHotPosts(){
+        return ResponseEntity.ok(communityService.getHotPosts());
+    }
+
     @GetMapping("/{postId}")
-    public ResponseEntity getCommunityDetail(Authentication authentication, @PathVariable long postId){
+    public ResponseEntity getCommunityDetail(@PathVariable long postId){
         CommunityDetailDTO communityDetailDTO = communityService.getCommunityDetail(postId);
         return ResponseEntity.ok(communityDetailDTO);
     }
