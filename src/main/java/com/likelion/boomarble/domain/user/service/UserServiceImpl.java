@@ -1,5 +1,6 @@
 package com.likelion.boomarble.domain.user.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.likelion.boomarble.domain.user.domain.User;
 import com.likelion.boomarble.domain.user.dto.UserSignUpRequestDto;
 import com.likelion.boomarble.domain.user.repository.UserRepository;
@@ -42,5 +43,12 @@ public class UserServiceImpl implements UserService {
         return jwtTokenProvider.createToken(user.getEmail(), roles);
     }
 
-
+    @Override
+    public int updateInfo(long userId, UserSignUpRequestDto userSignUpRequestDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다."));
+        String nickname = userSignUpRequestDto.getNickname();
+        user.setNickname(nickname);
+        return 200;
+    }
 }
